@@ -1,9 +1,9 @@
 #include "Player.h"
 
-Player::Player(sf::Texture *texture){
-    this -> movementSpeed = 20.f;
+Player::Player(sf::Texture *texture, float movementSpeed_){
+    this -> movementSpeed = movementSpeed_;
     this -> sprite.setTexture(*texture);
-    this -> sprite.setScale(0.3f, 0.3f);
+    this -> sprite.setScale(0.8f, 0.8f);
 
 }
 Player::~Player(){

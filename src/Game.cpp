@@ -7,32 +7,24 @@ void Game::initVariable(){
     this -> timeBetween2BulletsMax = 10.f;
     this -> timeBetween2Bullets = this -> timeBetween2BulletsMax;
 
-    //object variable
-    this -> objectNumsMax = 30.f;
-    this -> objectNum = 0.f;
 
 
     //Player's point
     this -> point = 0.f;
 
     //health
-    this -> healthMax = 5.f;
-    this -> curr_health = 5.f;
+    this -> healthMax = 10.f;
+    this -> curr_health = 10.f;
 
-}
-void Game::initWindow(){
-    // initualize a complete window
+    this -> waitingBeginingTime = 200.f;
+    this -> isClosed = false;
 
-    this -> windowSize.width = 1000;
-    this -> windowSize.height = 650;
-    this -> window = new sf::RenderWindow(this->windowSize, "COSMOS", sf::Style::Default);
 
-    //make window more smooth
-    this -> window->setFramerateLimit(144);
-    this -> window->setVerticalSyncEnabled(false);
+
 }
 void Game::initPlayer(){
-    this -> player = new Player(this -> resources["player"]);
+    this -> playerSpeed = 20.f;
+    this -> player = new Player(this -> resources["player"], this -> playerSpeed);
     this -> player->setPos(sf::Vector2f(this -> window -> getSize(). x / 2.0 ,this -> window->getSize().y - this -> player->getBounds().height));
 
 }
@@ -52,10 +44,10 @@ void Game::initTextures(){
 
     */
     this -> resources["player"] = new sf::Texture;
-    this -> resources["player"]->loadFromFile("image/ship.png");
+    this -> resources["player"]->loadFromFile("image/spaceship1.PNG");
 
     this -> resources["background"] = new sf::Texture;
-    this -> resources["background"]->loadFromFile("image/background.png");
+    this -> resources["background"]->loadFromFile("image/background.jpg");
 
     this -> resources["BULLET"] = new sf::Texture;
     this -> resources["BULLET"]->loadFromFile("image/bullet.png");
@@ -64,13 +56,43 @@ void Game::initTextures(){
     this -> resources["alien"]->loadFromFile("image/alien.png");
 
     this -> resources["Rock1"] = new sf::Texture;
-    this -> resources["Rock1"] -> loadFromFile("image/rock1.png");
+    this -> resources["Rock1"] -> loadFromFile("image/rock1.PNG");
 
     this -> resources["Rock2"] = new sf::Texture;
-    this -> resources["Rock2"] -> loadFromFile("image/rock2.png");
+    this -> resources["Rock2"] -> loadFromFile("image/rock2.PNG");
 
     this -> resources["Rock3"] = new sf::Texture;
-    this -> resources["Rock3"] -> loadFromFile("image/rock3.png");
+    this -> resources["Rock3"] -> loadFromFile("image/rock3.PNG");
+
+    this -> resources["Rock4"] = new sf::Texture;
+    this -> resources["Rock4"] -> loadFromFile("image/rock4.PNG");
+
+    this -> resources["planet1"] = new sf::Texture;
+    this -> resources["planet1"] -> loadFromFile("image/planet1.PNG");
+
+    this -> resources["planet2"] = new sf::Texture;
+    this -> resources["planet2"] -> loadFromFile("image/planet2.PNG");
+
+    this -> resources["planet3"] = new sf::Texture;
+    this -> resources["planet3"] -> loadFromFile("image/planet3.PNG");
+
+    this -> resources["planet4"] = new sf::Texture;
+    this -> resources["planet4"] -> loadFromFile("image/planet4.PNG");
+
+    this -> resources["planet5"] = new sf::Texture;
+    this -> resources["planet5"] -> loadFromFile("image/planet5.PNG");
+
+    this -> resources["planet6"] = new sf::Texture;
+    this -> resources["planet6"] -> loadFromFile("image/planet6.PNG");
+
+    this -> resources["planet7"] = new sf::Texture;
+    this -> resources["planet7"] -> loadFromFile("image/planet7.PNG");
+
+    this -> resources["planet8"] = new sf::Texture;
+    this -> resources["planet8"] -> loadFromFile("image/planet8.PNG");
+
+    this -> resources["planet9"] = new sf::Texture;
+    this -> resources["planet9"] -> loadFromFile("image/planet9.PNG");
 
 }
 
@@ -82,6 +104,9 @@ void Game::initObjects(){
         - save types of objects into a array to get random object appearing
     */
 
+    this -> objectSpeed = 1.f;
+    this -> level = 1.f;
+
     this -> timeBetween2ObjectsMax = 20.f;
     this -> timeBetween2Objects = this -> timeBetween2ObjectsMax;
 
@@ -90,17 +115,32 @@ void Game::initObjects(){
     this -> objectTypes.push_back("Rock1");
     this -> objectTypes.push_back("Rock2");
     this -> objectTypes.push_back("Rock3");
-
+    this -> objectTypes.push_back("Rock4");
 }
+void Game::initPlanet(){
+    /*
+    return void:
+        -set the interval between 2 planet appear
+        -save type of planets
+    */
+    this -> timeBetween2PlanetsMax = 200.f;
+    this -> timeBetween2Planets = 0.f;
 
+    for(int i = 1; i <= 9; i++){
+        std::string name = "planet";
+        name.push_back(i + '0');
+        planetTypes.push_back(name);
+    }
+}
 void Game::initFontsandText(){
     /*
     return void:
         Args:
             - pointFont & pointText: font and text to show player's point
     */
-    this -> pointFont.loadFromFile("fonts/VHBAHAB.TTF");
+    this -> pointFont.loadFromFile("fonts/ConnectionIi.otf");
     this -> pointText.setFont(pointFont);
+    this -> health.setFont(pointFont);
 
 }
 void Game::initHealthBar(){
@@ -120,21 +160,54 @@ void Game::initHealthBar(){
     this -> fill.setFillColor(sf::Color::Red);
 
 }
+void Game::initGameOver()
+{
+    this -> windowsize.x = this -> window->getSize().x;
+    this -> windowsize.y = this -> window->getSize().y;
+    this -> gameOver = new GameOver( windowsize);
+}
+void Game::initLoading()
+{
+    this -> loading = new Loading();
+}
+void Game::initSound()
+{
+    //collision
+    this -> collisionBuf.loadFromFile("audio/collision.wav");
+    this -> collision.setBuffer(this -> collisionBuf);
 
-Game::Game(){
+    //bullet
+    this -> bulletShootBuffer.loadFromFile("audio/bulletShoot.wav");
+    this -> bulletShoot.setBuffer(this -> bulletShootBuffer);
+
+    this -> bgkBuf.loadFromFile("audio/bgkmusicGame.wav");
+    this -> bgk.setBuffer(this -> bgkBuf);
+    this -> bgk.setLoop(true);
+
+    this -> bgkGOBuf.loadFromFile("audio/bgkmusicGO.wav");
+    this -> bgkGO.setBuffer(this -> bgkGOBuf);
+    this -> bgkGO.setLoop(true);
+
+
+
+}
+Game::Game(sf::RenderWindow *target){
 
     this -> initVariable();
-    this -> initWindow();
     this -> initTextures();
+    this -> initSound();
+    this -> window = target;
     this -> initPlayer();
     this -> initbackground();
     this -> initObjects();
+    this -> initPlanet();
     this -> initFontsandText();
     this -> initHealthBar();
+    this -> initGameOver();
+    this -> initLoading();
 }
 
 Game::~Game(){
-    delete window;
     delete player;
     delete background;
     for(auto i: this -> bullets){
@@ -148,11 +221,20 @@ Game::~Game(){
     for(auto i: this -> objects){
         delete i;
     }
+    delete gameOver;
+    delete loading;
 }
 const bool Game::isRunning() const{
     return this->window->isOpen();
 }
-
+bool Game::Closed()
+{
+    return this -> isClosed;
+}
+int Game::choice()
+{
+    return gameOver -> choice();
+}
 bool Game::isCoolDown(){
     /*
     return void:
@@ -187,6 +269,7 @@ void Game::updateCollision(){
         this -> player -> setPos(sf::Vector2f(this -> player -> getBounds(). left, this -> window -> getSize().y - this -> player -> getBounds().height));
     }
 }
+
 void Game::pollEv(){
     /*
     return void: check input event to escape the game
@@ -195,14 +278,15 @@ void Game::pollEv(){
     */
     while(this->window->pollEvent(this -> ev)){
         if(ev.type == sf::Event::Closed){
-                this->window->close();
+            this -> window -> close();
+            isClosed = true;
         }
         if(ev.sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
             this -> window -> close();
+            isClosed = true;
+
         }
-        if(this -> curr_health == 0.f){
-            this -> window->close();
-        }
+
     }
 
 }
@@ -231,6 +315,20 @@ void Game::updateInput(){
                                     this -> player -> getPos().x + this -> player -> getBounds().width / 2.f,
                                     this -> player -> getPos().y,
                                     5.f));
+        this -> bulletShoot.play();
+
+    }
+}
+void Game::updateObjectsSpeed()
+{
+    if(this -> point >= this -> level * 5000)
+    {
+        this -> objectSpeed += 0.5f;
+        this -> level++;
+    }
+    if(this -> point >= level * 10000)
+    {
+        timeBetween2ObjectsMax -= 2.f;
     }
 }
 void Game::updateObjects(){
@@ -239,33 +337,60 @@ void Game::updateObjects(){
         - generate random objects
         - update object: if object crash the bounders of the window or the player, the health is subtracted
     */
-    int type = rand() % this -> objectTypes.size();
-    if(this -> timeBetween2Objects >= this -> timeBetween2ObjectsMax){
-        if(objectTypes[type] == "alien")
-            this -> objects.push_back(new Object(this -> resources["alien"], rand() % this->window->getSize().x-20.f, -100.f, 0.2f, 0.2f, true));
-        else
-            this -> objects.push_back(new Object(this -> resources[objectTypes[type]], rand() % this->window->getSize().x-20.f, -100.f, 0.5f, 0.5f, false));
-        this -> timeBetween2Objects = 0.f;
-        this -> objectNum += 1.f;
+    this -> updateObjectsSpeed();
+    if(this -> waitingBeginingTime < 0){
+        int type = rand() % this -> objectTypes.size();
+        if(this -> timeBetween2Objects >= this -> timeBetween2ObjectsMax){
+            if(objectTypes[type] == "alien")
+                this -> objects.push_back(new Object(this -> resources["alien"], rand() % this->window->getSize().x-20.f, -100.f, 0.5f, 0.5f, this -> objectSpeed, true));
+            else
+                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], rand() % this->window->getSize().x-20.f, -100.f, 0.8f, 0.8f, this -> objectSpeed, false));
+            this -> timeBetween2Objects = 0.f;
+        }
+        else timeBetween2Objects += 0.5f;
+
+
+
+        int idx = 0;
+        for(auto *i: this -> objects){
+            i->updateSpeed(this -> objectSpeed);
+            i->update();
+
+            if(i->getBounds().top > this -> window->getSize().y){
+                delete this -> objects.at(idx);
+                this -> objects.erase(this -> objects.begin() + idx);
+            }
+            else if(i->getBounds().intersects(this -> player->getBounds())){
+                delete this -> objects.at(idx);
+                this -> objects.erase(this -> objects.begin() + idx);
+                this -> curr_health -= 1.f;
+            }
+            idx++;
+        }
     }
-    else timeBetween2Objects += 0.5f;
-
-
+    else this -> waitingBeginingTime -= 1.f;
+}
+void Game::updatePlanet(){
+    int type = rand() % planetTypes.size();
+    if(this -> timeBetween2Planets >= this -> timeBetween2PlanetsMax){
+        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], rand() % this->window->getSize().x-20.f, -100.f, 1.f));
+        this -> timeBetween2Planets = 0.f;
+    }
+    else this -> timeBetween2Planets += 0.5f;
 
     int idx = 0;
-    for(auto *i: this -> objects){
+    for(auto *i: this -> planets){
         i->update();
 
         if(i->getBounds().top > this -> window->getSize().y){
-            delete this -> objects.at(idx);
-            this -> objects.erase(this -> objects.begin() + idx);
-            objectNum -= 1.f;
+            delete this -> planets.at(idx);
+            this -> planets.erase(this -> planets.begin() + idx);
         }
         else if(i->getBounds().intersects(this -> player->getBounds())){
-            delete this -> objects.at(idx);
-            this -> objects.erase(this -> objects.begin() + idx);
-            objectNum -= 1.f;
-            this -> curr_health -= 1.f;
+            delete this -> planets.at(idx);
+            this -> planets.erase(this -> planets.begin() + idx);
+            this -> curr_health += 1.f;
+            this -> curr_health = curr_health >= healthMax ? healthMax : curr_health;
         }
         idx++;
     }
@@ -282,12 +407,27 @@ void Game::updateCombats(){
             if(this->objects[i]->getBounds().intersects(this->bullets[j]->getBounds())){
                 delete this -> objects[i];
                 this -> objects.erase(this -> objects.begin() + i);
-                objectNum -= 1.f;
 
                 delete this -> bullets[j];
                 this -> bullets.erase(this -> bullets.begin() + j);
                 if(objects[i]->isAlien()) point += 200.f;
                 else point += 100.f;
+                this -> collision.play();
+                break;
+
+            }
+        }
+    }
+
+    for(unsigned i = 0; i < this -> planets.size(); i++){
+        for(unsigned j = 0; j < this -> bullets.size(); j++){
+            if(this->planets[i]->getBounds().intersects(this->bullets[j]->getBounds())){
+                delete this -> planets[i];
+                this -> planets.erase(this -> planets.begin() + i);
+
+                delete this -> bullets[j];
+                this -> bullets.erase(this -> bullets.begin() + j);
+                this -> curr_health -= 1.f;
                 break;
             }
         }
@@ -313,10 +453,25 @@ void Game::updateText(){
     std::stringstream ss;
     ss <<"Points: " << this -> point;
     this -> pointText.setString(ss.str());
+    this -> pointText.setScale(1.5f, 1.5f);
 }
 void Game::updateHealthBar(){
     float percent = curr_health / healthMax;
     this -> fill.setSize(sf::Vector2f(percent * healthBarWidth, healthBarHeight));
+    std::stringstream ss;
+    ss << percent*100 <<'%';
+    this -> health.setString(ss.str());
+    this -> health.setPosition(this -> surround.getPosition().x - 100.f, this -> surround.getPosition().y - 10.f);
+    this -> health.setScale(1.2f, 1.2f);
+}
+void Game::updateMousePos(){
+    this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+}
+
+void Game::updateFinalPoints()
+{
+    this -> gameOver -> update();
 }
 void Game::renderText(){
     this -> window->draw(pointText);
@@ -324,6 +479,7 @@ void Game::renderText(){
 void Game::renderHealthBar(){
     this -> window -> draw(this -> surround);
     this -> window -> draw(this -> fill);
+    this -> window -> draw(this -> health);
 }
 void Game::update(){
     this->pollEv();
@@ -332,6 +488,7 @@ void Game::update(){
     this -> updateInput();
     this -> updateBullets();
     this -> updateObjects();
+    this -> updatePlanet();
     this -> updateCombats();
     this -> updateText();
     this -> updateHealthBar();
@@ -351,18 +508,58 @@ void Game::render(){
     for(auto *i: this -> objects){
         i -> render(this -> window);
     }
+    for(auto *i: this -> planets){
+        i -> render(this -> window);
+    }
     this -> renderText();
     this -> renderHealthBar();
     this -> window -> display();
 }
-
+void Game::renderFinalPoint()
+{
+    this -> window -> clear(sf::Color::Black);
+    this -> background -> render(this -> window);
+    this -> gameOver ->render(this -> window);
+    this -> window -> display();
+}
 void Game::running(){
-    while(this -> isRunning()){
+    while(this -> loading ->getNumber() <= 100)
+    {
+        this -> pollEv();
+        this -> loading -> update(windowsize);
+        this -> window -> clear(sf::Color::Black);
+        this -> loading -> render(this -> window);
+        this -> window -> display();
+    }
+    this -> bgk.play();
+    while(this -> isRunning() && curr_health > 0.f){
+
 
         //update
         this -> update();
 
         //render
         this -> render();
+
     }
+    this -> bgk.stop();
+    //print the score
+    this -> bgkGO.play();
+    while(this -> isRunning() && curr_health <= 0.f)
+    {
+        this -> pollEv();
+        this -> updateMousePos();
+        this -> gameOver -> updatePoint(this -> point);
+        this -> gameOver -> updateMousePos(this -> mousePosView);
+        this -> updateFinalPoints();
+        this -> renderFinalPoint();
+        if(gameOver -> choice() != 0)
+        {
+            break;
+        }
+    }
+    this -> bgkGO.stop();
 }
+
+
+

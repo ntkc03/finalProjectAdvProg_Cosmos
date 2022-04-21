@@ -3,7 +3,7 @@
 Bullet::Bullet(sf::Texture *texture, float posX, float posY, int movementSpeed_){
     this -> sprite.setTexture(*texture);
     this -> sprite.setPosition(posX, posY);
-    this -> sprite.setScale(0.1f, 0.1f);
+    this -> sprite.setScale(0.7f, 0.7f);
     this -> movementSpeed = movementSpeed_;
 }
 Bullet::~Bullet(){

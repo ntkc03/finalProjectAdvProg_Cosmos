@@ -1,10 +1,11 @@
 #include "Object.h"
 
 void Object::initVariable(){
-    this -> movementSpeed = 2.f;
+
 }
 
-Object::Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY, bool isAlien_){
+Object::Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY,float speed, bool isAlien_){
+    this -> movementSpeed = speed;
     this -> sprite.setTexture(*texture);
     this -> sprite.setPosition(posX, posY);
     this -> sprite.setScale(sizeX, sizeY);
@@ -19,6 +20,10 @@ sf::FloatRect Object::getBounds(){
 }
 const bool Object::isAlien() const{
     return Alien;
+}
+void Object::updateSpeed(float laterSpeed)
+{
+   this ->  movementSpeed = laterSpeed;
 }
 void Object::update(){
     this -> sprite.move(movementSpeed * sf::Vector2f(0.f, 1.f));
