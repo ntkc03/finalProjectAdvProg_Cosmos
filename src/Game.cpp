@@ -1,13 +1,8 @@
 #include "Game.h"
 void Game::initVariable(){
-    //window variable
-    this-> window = nullptr;
-
     //bullet variable
     this -> timeBetween2BulletsMax = 10.f;
     this -> timeBetween2Bullets = this -> timeBetween2BulletsMax;
-
-
 
     //Player's point
     this -> point = 0.f;
@@ -18,15 +13,11 @@ void Game::initVariable(){
 
     this -> waitingBeginingTime = 200.f;
     this -> isClosed = false;
-
-
-
 }
-void Game::initPlayer(){
+void Game::initPlayer(const int &playerChoice){
     this -> playerSpeed = 20.f;
-    this -> player = new Player(this -> resources["player"], this -> playerSpeed);
-    this -> player->setPos(sf::Vector2f(this -> window -> getSize(). x / 2.0 ,this -> window->getSize().y - this -> player->getBounds().height));
-
+    this -> player = new Player;
+    player -> getChoice(playerChoice);
 }
 
 void Game::initbackground(){
@@ -37,14 +28,10 @@ void Game::initTextures(){
     /*
 
     return void: store the textures' resource
-        - "player": texture of class Player
         - "background": texture of class Player
         - "BULLET": texture of class Bullet
         - "alien", "rock1", "rock2", "rock3": textures of class enermy objects
-
     */
-    this -> resources["player"] = new sf::Texture;
-    this -> resources["player"]->loadFromFile("image/spaceship1.PNG");
 
     this -> resources["background"] = new sf::Texture;
     this -> resources["background"]->loadFromFile("image/background.jpg");
@@ -85,14 +72,20 @@ void Game::initTextures(){
     this -> resources["planet6"] = new sf::Texture;
     this -> resources["planet6"] -> loadFromFile("image/planet6.PNG");
 
-    this -> resources["planet7"] = new sf::Texture;
-    this -> resources["planet7"] -> loadFromFile("image/planet7.PNG");
+    this -> resources["boom1"] = new sf::Texture;
+    this -> resources["boom1"] -> loadFromFile("image/boom1.PNG");
 
-    this -> resources["planet8"] = new sf::Texture;
-    this -> resources["planet8"] -> loadFromFile("image/planet8.PNG");
+    this -> resources["boom2"] = new sf::Texture;
+    this -> resources["boom2"] -> loadFromFile("image/boom2.PNG");
 
-    this -> resources["planet9"] = new sf::Texture;
-    this -> resources["planet9"] -> loadFromFile("image/planet9.PNG");
+    this -> resources["boom3"] = new sf::Texture;
+    this -> resources["boom3"] -> loadFromFile("image/boom3.PNG");
+
+    this -> resources["boom4"] = new sf::Texture;
+    this -> resources["boom4"] -> loadFromFile("image/boom4.PNG");
+
+    this -> resources["boom5"] = new sf::Texture;
+    this -> resources["boom5"] -> loadFromFile("image/boom5.PNG");
 
 }
 
@@ -100,12 +93,23 @@ void Game::initObjects(){
 
     /*
     return void:
+        - set the speed
+        - set the text when speeding up
         - set the interval betwween 2 times objeccs appear
         - save types of objects into a array to get random object appearing
     */
 
     this -> objectSpeed = 1.f;
     this -> level = 1.f;
+
+    //speeding up text
+    this -> fontSpeed.loadFromFile("fonts/Pixeboy.ttf");
+    this -> speedup.setFont(this -> fontSpeed);
+    this -> speedup.setString("Speed up");
+    this -> speedup.setScale(3.f, 3.f);
+    this -> speedup.setColor(sf::Color::Red);
+    this -> timeTextLast = 0.f;
+
 
     this -> timeBetween2ObjectsMax = 20.f;
     this -> timeBetween2Objects = this -> timeBetween2ObjectsMax;
@@ -126,7 +130,7 @@ void Game::initPlanet(){
     this -> timeBetween2PlanetsMax = 200.f;
     this -> timeBetween2Planets = 0.f;
 
-    for(int i = 1; i <= 9; i++){
+    for(int i = 1; i <= 6; i++){
         std::string name = "planet";
         name.push_back(i + '0');
         planetTypes.push_back(name);
@@ -142,6 +146,7 @@ void Game::initFontsandText(){
     this -> pointText.setFont(pointFont);
     this -> health.setFont(pointFont);
 
+
 }
 void Game::initHealthBar(){
     /*
@@ -152,19 +157,16 @@ void Game::initHealthBar(){
     this -> surround.setSize(sf::Vector2f(healthBarWidth, healthBarHeight));
     this -> surround.setOutlineThickness(1.f);
     this -> surround.setOutlineColor(sf::Color::Black);
-    this -> surround.setPosition(this -> window -> getSize().x - healthBarWidth - 4.f , 10.f);
+
 
     float percent = curr_health / healthMax;
     this -> fill.setSize(sf::Vector2f(percent * healthBarWidth, healthBarHeight));
-    this -> fill.setPosition(surround.getPosition());
     this -> fill.setFillColor(sf::Color::Red);
 
 }
 void Game::initGameOver()
 {
-    this -> windowsize.x = this -> window->getSize().x;
-    this -> windowsize.y = this -> window->getSize().y;
-    this -> gameOver = new GameOver( windowsize);
+    this -> gameOver = new GameOver;
 }
 void Game::initLoading()
 {
@@ -188,16 +190,32 @@ void Game::initSound()
     this -> bgkGO.setBuffer(this -> bgkGOBuf);
     this -> bgkGO.setLoop(true);
 
+    this -> earnHealBuf.loadFromFile("audio/ting.wav");
+    this -> earnHeal.setBuffer(this -> earnHealBuf);
 
+    this -> loseHealBuf.loadFromFile("audio/loseHeal.wav");
+    this -> loseHeal.setBuffer(this -> loseHealBuf);
 
 }
-Game::Game(sf::RenderWindow *target){
+void Game::initBoom()
+{
+    for(unsigned i = 1; i <= 5; i++)
+    {
+        std::string str = "boom";
+        str.push_back(i + '0');
+        booms.push_back(new Boom(resources[str]));
+    }
+    this -> boomSpawnTimerMax = 5.f;
+    this -> boomSpawnTimer = 0.f;
+    this -> isBoom = false;
+    this -> frame = 0;
+}
+Game::Game(const int &playerChoice ){
 
     this -> initVariable();
     this -> initTextures();
     this -> initSound();
-    this -> window = target;
-    this -> initPlayer();
+    this -> initPlayer(playerChoice);
     this -> initbackground();
     this -> initObjects();
     this -> initPlanet();
@@ -205,6 +223,7 @@ Game::Game(sf::RenderWindow *target){
     this -> initHealthBar();
     this -> initGameOver();
     this -> initLoading();
+    this -> initBoom();
 }
 
 Game::~Game(){
@@ -221,11 +240,48 @@ Game::~Game(){
     for(auto i: this -> objects){
         delete i;
     }
+    for(auto i: this -> booms)
+    {
+        delete i;
+    }
     delete gameOver;
     delete loading;
 }
-const bool Game::isRunning() const{
-    return this->window->isOpen();
+
+void Game::running(sf::RenderWindow *window){
+    //loading
+    this -> setOriginPos(window);
+    this -> runLoad(window);
+    //playing
+    this -> runMainGame(window);
+    //print the score
+    this -> runGameOver(window);
+}
+void Game::runLoad(sf::RenderWindow *window)
+{
+    while(this -> loading ->getNumber() <= 100)
+    {
+        this -> pollEv(window);
+        this -> loading -> update(windowsize);
+        window -> clear(sf::Color::Black);
+        this -> loading -> render(window);
+        window -> display();
+    }
+}
+void Game::runMainGame(sf::RenderWindow *window)
+{
+    this -> bgk.play();
+    while(this -> isRunning(window) && curr_health > 0.f){
+        //update
+        this -> update(window);
+        //render
+        this -> render(window);
+    }
+    this -> bgk.stop();
+}
+
+const bool Game::isRunning(sf::RenderWindow *window) const{
+    return window->isOpen();
 }
 bool Game::Closed()
 {
@@ -247,7 +303,33 @@ bool Game::isCoolDown(){
     else timeBetween2Bullets += 0.5f;
     return false;
 }
-void Game::updateCollision(){
+void Game::setOriginPos(sf::RenderWindow *window)
+{
+    this -> getWindowSize(window);
+    this -> player->setPos(sf::Vector2f(window -> getSize(). x / 2.0 ,window->getSize().y - this -> player->getBounds().height));
+    this -> speedup.setPosition(window -> getSize(). x / 2.0 - 150.f ,window->getSize().y / 2.0 - 80.f);
+    this -> surround.setPosition(window -> getSize().x - healthBarWidth - 4.f , 10.f);
+    this -> fill.setPosition(surround.getPosition());
+}
+void Game::getWindowSize(sf::RenderWindow *window)
+{
+    this -> windowsize.x = window->getSize().x;
+    this -> windowsize.y = window->getSize().y;
+}
+void Game::update(sf::RenderWindow *window){
+    this->pollEv(window);
+    this -> player -> update();
+    this -> updateCollision(window);
+    this -> updateInput();
+    this -> updateBullets();
+    this -> updateObjects(window);
+    this -> updatePlanet(window);
+    this -> updateCombats();
+    this -> updateText();
+    this -> updateHealthBar();
+}
+
+void Game::updateCollision(sf::RenderWindow *window){
     /*
     return void
         - set the bound collisions of player that player can't go out of the window
@@ -257,32 +339,32 @@ void Game::updateCollision(){
 	{
 		this->player->setPos(sf::Vector2f(0.f, this->player->getBounds().top));
 	}
-	else if (this->player->getBounds().left + this->player->getBounds().width >= this->window->getSize().x)
+	else if (this->player->getBounds().left + this->player->getBounds().width >= window->getSize().x)
 	{
-		this->player->setPos(sf::Vector2f(this->window->getSize().x - this->player->getBounds().width, this->player->getBounds().top));
+		this->player->setPos(sf::Vector2f(window->getSize().x - this->player->getBounds().width, this->player->getBounds().top));
 	}
 
     if(this -> player -> getBounds().top <= 0.f){
         this -> player -> setPos(sf::Vector2f( this -> player -> getBounds().left, 0.f));
     }
-    else if(this -> player -> getBounds().top + this -> player -> getBounds().height >= this -> window -> getSize().y){
-        this -> player -> setPos(sf::Vector2f(this -> player -> getBounds(). left, this -> window -> getSize().y - this -> player -> getBounds().height));
+    else if(this -> player -> getBounds().top + this -> player -> getBounds().height >= window -> getSize().y){
+        this -> player -> setPos(sf::Vector2f(this -> player -> getBounds(). left, window -> getSize().y - this -> player -> getBounds().height));
     }
 }
 
-void Game::pollEv(){
+void Game::pollEv(sf::RenderWindow *window){
     /*
     return void: check input event to escape the game
         - Closed
         - KeyPressed: Escape
     */
-    while(this->window->pollEvent(this -> ev)){
+    while(window->pollEvent(this -> ev)){
         if(ev.type == sf::Event::Closed){
-            this -> window -> close();
+            window -> close();
             isClosed = true;
         }
         if(ev.sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
-            this -> window -> close();
+            window -> close();
             isClosed = true;
 
         }
@@ -323,15 +405,14 @@ void Game::updateObjectsSpeed()
 {
     if(this -> point >= this -> level * 5000)
     {
+
         this -> objectSpeed += 0.5f;
         this -> level++;
-    }
-    if(this -> point >= level * 10000)
-    {
-        timeBetween2ObjectsMax -= 2.f;
+        this -> timeTextLast = 50.f;
+        this -> timeBetween2PlanetsMax -= 5.f;
     }
 }
-void Game::updateObjects(){
+void Game::updateObjects(sf::RenderWindow *window){
     /*
     return void:
         - generate random objects
@@ -342,9 +423,9 @@ void Game::updateObjects(){
         int type = rand() % this -> objectTypes.size();
         if(this -> timeBetween2Objects >= this -> timeBetween2ObjectsMax){
             if(objectTypes[type] == "alien")
-                this -> objects.push_back(new Object(this -> resources["alien"], rand() % this->window->getSize().x-20.f, -100.f, 0.5f, 0.5f, this -> objectSpeed, true));
+                this -> objects.push_back(new Object(this -> resources["alien"], rand() % window->getSize().x-20.f, -100.f, 0.5f, 0.5f, this -> objectSpeed, true));
             else
-                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], rand() % this->window->getSize().x-20.f, -100.f, 0.8f, 0.8f, this -> objectSpeed, false));
+                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], rand() % window->getSize().x-20.f, -100.f, 0.8f, 0.8f, this -> objectSpeed, false));
             this -> timeBetween2Objects = 0.f;
         }
         else timeBetween2Objects += 0.5f;
@@ -356,7 +437,7 @@ void Game::updateObjects(){
             i->updateSpeed(this -> objectSpeed);
             i->update();
 
-            if(i->getBounds().top > this -> window->getSize().y){
+            if(i->getBounds().top > window->getSize().y){
                 delete this -> objects.at(idx);
                 this -> objects.erase(this -> objects.begin() + idx);
             }
@@ -364,16 +445,17 @@ void Game::updateObjects(){
                 delete this -> objects.at(idx);
                 this -> objects.erase(this -> objects.begin() + idx);
                 this -> curr_health -= 1.f;
+                this -> loseHeal.play();
             }
             idx++;
         }
     }
     else this -> waitingBeginingTime -= 1.f;
 }
-void Game::updatePlanet(){
+void Game::updatePlanet(sf::RenderWindow *window){
     int type = rand() % planetTypes.size();
     if(this -> timeBetween2Planets >= this -> timeBetween2PlanetsMax){
-        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], rand() % this->window->getSize().x-20.f, -100.f, 1.f));
+        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], rand() % window->getSize().x-20.f, -100.f, 1.2f));
         this -> timeBetween2Planets = 0.f;
     }
     else this -> timeBetween2Planets += 0.5f;
@@ -382,15 +464,17 @@ void Game::updatePlanet(){
     for(auto *i: this -> planets){
         i->update();
 
-        if(i->getBounds().top > this -> window->getSize().y){
+        if(i->getBounds().top > window->getSize().y){
             delete this -> planets.at(idx);
             this -> planets.erase(this -> planets.begin() + idx);
         }
         else if(i->getBounds().intersects(this -> player->getBounds())){
+            this -> earnHeal.play();
             delete this -> planets.at(idx);
             this -> planets.erase(this -> planets.begin() + idx);
             this -> curr_health += 1.f;
             this -> curr_health = curr_health >= healthMax ? healthMax : curr_health;
+
         }
         idx++;
     }
@@ -405,6 +489,12 @@ void Game::updateCombats(){
     for(unsigned i = 0; i < this -> objects.size(); i++){
         for(unsigned j = 0; j < this -> bullets.size(); j++){
             if(this->objects[i]->getBounds().intersects(this->bullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(objects[i] -> getPos());
+                }
+
                 delete this -> objects[i];
                 this -> objects.erase(this -> objects.begin() + i);
 
@@ -414,7 +504,6 @@ void Game::updateCombats(){
                 else point += 100.f;
                 this -> collision.play();
                 break;
-
             }
         }
     }
@@ -422,13 +511,20 @@ void Game::updateCombats(){
     for(unsigned i = 0; i < this -> planets.size(); i++){
         for(unsigned j = 0; j < this -> bullets.size(); j++){
             if(this->planets[i]->getBounds().intersects(this->bullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(this -> planets[i] -> getPos());
+                }
                 delete this -> planets[i];
                 this -> planets.erase(this -> planets.begin() + i);
 
                 delete this -> bullets[j];
                 this -> bullets.erase(this -> bullets.begin() + j);
                 this -> curr_health -= 1.f;
+                this -> loseHeal.play();
                 break;
+
             }
         }
     }
@@ -464,95 +560,79 @@ void Game::updateHealthBar(){
     this -> health.setPosition(this -> surround.getPosition().x - 100.f, this -> surround.getPosition().y - 10.f);
     this -> health.setScale(1.2f, 1.2f);
 }
-void Game::updateMousePos(){
-    this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+void Game::updateMousePos(sf::RenderWindow *window){
+    this->mousePosWindow = sf::Mouse::getPosition(*window);
+	this->mousePosView = window->mapPixelToCoords(this->mousePosWindow);
 }
 
-void Game::updateFinalPoints()
-{
-    this -> gameOver -> update();
-}
-void Game::renderText(){
-    this -> window->draw(pointText);
-}
-void Game::renderHealthBar(){
-    this -> window -> draw(this -> surround);
-    this -> window -> draw(this -> fill);
-    this -> window -> draw(this -> health);
-}
-void Game::update(){
-    this->pollEv();
-    this -> player -> update();
-    this -> updateCollision();
-    this -> updateInput();
-    this -> updateBullets();
-    this -> updateObjects();
-    this -> updatePlanet();
-    this -> updateCombats();
-    this -> updateText();
-    this -> updateHealthBar();
-}
+void Game::render(sf::RenderWindow *window){
 
-void Game::render(){
-
-    this -> window -> clear(sf::Color::Black);
+    window -> clear(sf::Color::Black);
 
     // render player
-    this -> background -> render(this -> window);
-    this -> player -> render(this -> window);
-
+    this -> background -> render(window);
+    this -> player -> render(window);
     for(auto *i: this -> bullets){
-        i -> render(this -> window);
+        i -> render(window);
     }
     for(auto *i: this -> objects){
-        i -> render(this -> window);
+        i -> render(window);
     }
     for(auto *i: this -> planets){
-        i -> render(this -> window);
+        i -> render(window);
     }
-    this -> renderText();
-    this -> renderHealthBar();
-    this -> window -> display();
+    this -> renderText(window);
+    this -> renderHealthBar(window);
+    if(timeTextLast > 0)
+    {
+        window -> draw(this -> speedup);
+        timeTextLast -= 1.f;
+    }
+    this -> renderBoom(window);
+    window -> display();
 }
-void Game::renderFinalPoint()
+void Game::renderText(sf::RenderWindow *window){
+    window->draw(pointText);
+}
+void Game::renderHealthBar(sf::RenderWindow *window){
+    window -> draw(this -> surround);
+    window -> draw(this -> fill);
+    window -> draw(this -> health);
+}
+
+void Game::renderBoom(sf::RenderWindow *window)
 {
-    this -> window -> clear(sf::Color::Black);
-    this -> background -> render(this -> window);
-    this -> gameOver ->render(this -> window);
-    this -> window -> display();
+    if(isBoom)
+    {
+        if(boomSpawnTimer > boomSpawnTimerMax)
+        {
+            boomSpawnTimer = 0.f;
+            this -> frame += 1.f;
+            if(frame >= 5)
+            {
+                isBoom = false;
+                frame = 0;
+                boomSpawnTimer = 0.f;
+            }
+        }
+        else{
+            booms[frame] -> render(window);
+            boomSpawnTimer += 1.f;
+        }
+    }
 }
-void Game::running(){
-    while(this -> loading ->getNumber() <= 100)
-    {
-        this -> pollEv();
-        this -> loading -> update(windowsize);
-        this -> window -> clear(sf::Color::Black);
-        this -> loading -> render(this -> window);
-        this -> window -> display();
-    }
-    this -> bgk.play();
-    while(this -> isRunning() && curr_health > 0.f){
-
-
-        //update
-        this -> update();
-
-        //render
-        this -> render();
-
-    }
-    this -> bgk.stop();
-    //print the score
+void Game::runGameOver(sf::RenderWindow *window)
+{
     this -> bgkGO.play();
-    while(this -> isRunning() && curr_health <= 0.f)
+    this -> setOriginPos(window);
+    while(this -> isRunning(window) && curr_health <= 0.f)
     {
-        this -> pollEv();
-        this -> updateMousePos();
+        this -> pollEv(window);
+        this -> updateMousePos(window);
         this -> gameOver -> updatePoint(this -> point);
         this -> gameOver -> updateMousePos(this -> mousePosView);
         this -> updateFinalPoints();
-        this -> renderFinalPoint();
+        this -> renderFinalPoint(window);
         if(gameOver -> choice() != 0)
         {
             break;
@@ -560,6 +640,18 @@ void Game::running(){
     }
     this -> bgkGO.stop();
 }
+void Game::updateFinalPoints()
+{
+    this -> gameOver -> update(windowsize);
+}
+void Game::renderFinalPoint(sf::RenderWindow *window)
+{
+    window -> clear(sf::Color::Black);
+    this -> background -> render(window);
+    this -> gameOver ->render(window);
+    window -> display();
+}
+
 
 
 

@@ -8,11 +8,11 @@
 #include <random>
 #include <ctime>
 #include "background.h"
+#include "Player.h"
 class Hello
 {
 private:
 
-    sf::RenderWindow *window;
     sf::Event ev;
     sf::Font font1, font2, font3;
 
@@ -32,25 +32,51 @@ private:
 	sf::SoundBuffer bgkBuf;
     sf::Sound bgk;
 
+    //Player choice
+    int playerChoice;
+    Player *playerRange;
+    sf::Text textOfchoice;
+
     int choices;
     bool closed;
     void initVariables();
     void initFont();
     void initBKG();
 public:
+    //Constructor & Destructor
     Hello();
-    Hello(sf::RenderWindow *target);
     virtual ~Hello();
-    const bool isRunning() const;
+
+    void running(sf::RenderWindow *window);
+
+    //check running
+    const bool isRunning(sf::RenderWindow *window) const;
     bool isClosed();
     int choice();
+
+
+    //update
+    void update(sf::RenderWindow *window);
+    void PollEv(sf::RenderWindow *window);
+    void updateMousePos(sf::RenderWindow *window);
+    void updateText(sf::RenderWindow *window);
+    void setString();
+    void setColor();
     sf::Color randomColor();
-    void updateMousePos();
-    void updateText();
-    void beginPollEv();
-    void update();
-    void render();
-    void running();
+    void setPos(sf::RenderWindow *window);
+    void setFont();
+    void setScale();
+
+
+    //render
+    void render(sf::RenderWindow *window);
+
+    //choose Player
+    void pollChoosePlayerEvent(sf::RenderWindow *window);
+    void updateChoosePlayer(sf::RenderWindow *window);
+    void setTextOfChoice();
+    void renderChoosePlayer(sf::RenderWindow *window);
+    int getplayerChoice();
 };
 
 #endif // HELLO_H

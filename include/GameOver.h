@@ -26,25 +26,23 @@ private:
 
 	sf::Vector2f mousePosView;
 
-	sf::Vector2f windowSize;
-
     void initVariable();
     void initFontsandText();
 public:
-    GameOver(sf::Vector2f windowSize_);
+    GameOver();
     virtual ~GameOver();
 
 
     int choice();
 
-    void update();
+    void update(sf::Vector2f windowSize);
     void pollEv();
-    void updateTexts();
+    void updateTexts(sf::Vector2f windowSize);
     void updateMousePos(sf::Vector2f mousePosView_);
     void updatePoint(float point_);
     void setStringTexts();
     void setScaleTexts();
-    void setPos();
+    void setPos(sf::Vector2f windowSize);
     void SetColor();
 
     void render(sf::RenderTarget *target);

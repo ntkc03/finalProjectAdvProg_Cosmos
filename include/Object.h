@@ -18,6 +18,7 @@ public:
 
     Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY, float speed, bool isAlien_);
     virtual ~Object();
+    sf::Vector2f getPos();
     sf::FloatRect getBounds();
     const bool isAlien() const;
     void updateSpeed(float laterSpeed);

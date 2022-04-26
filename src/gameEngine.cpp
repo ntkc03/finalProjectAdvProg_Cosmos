@@ -24,8 +24,8 @@ void gameEngine::running()
 {
 
     while(true){
-        Hello hello(this -> window);
-        hello.running();
+        Hello hello;
+        hello.running(this -> window);
         if(hello.isClosed()) {
             break;
         }
@@ -33,8 +33,8 @@ void gameEngine::running()
             if(hello.choice() == 1){
                 bool isContinue = true;
                 while(isContinue){
-                    Game game(this -> window);
-                    game.running();
+                    Game game(hello.getplayerChoice());
+                    game.running(this -> window);
                     if(game.Closed()){
                         break;
                     }

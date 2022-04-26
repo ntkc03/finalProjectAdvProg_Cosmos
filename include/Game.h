@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <string>
 
 
 
@@ -18,17 +19,16 @@
 #include "Planet.h"
 #include "GameOver.h"
 #include "Loading.h"
+#include "Boom.h"
 
 class Game{
 private:
-    // Create window
-    sf::RenderWindow *window;
 
+    sf::Vector2f windowsize;
 
     //Player
     Player *player;
     float playerSpeed;
-
 
     //Health
     float curr_health;
@@ -38,7 +38,10 @@ private:
     const float healthBarHeight = 30.f;
     const float healthBarWidth = 300.f;
     sf::Text health;
-
+    sf::SoundBuffer earnHealBuf;
+    sf::Sound earnHeal;
+    sf::SoundBuffer loseHealBuf;
+    sf::Sound loseHeal;
 
     //Points
     float point;
@@ -51,13 +54,18 @@ private:
     sf::Sound bgk;
 
     //Object
+    std::vector<std::string> objectTypes;
     std::vector<Object *>objects;
     float objectSpeed;
     float level;
+    sf::Text speedup;
+    sf::Font fontSpeed;
+    float timeTextLast;
 
     //Resources
     std::map<std::string, sf::Texture*> resources;
-    std::vector<std::string> objectTypes;
+
+    //Planet
     std::vector<std::string> planetTypes;
     std::vector<Planet *> planets;
 
@@ -86,6 +94,17 @@ private:
     //Event
     sf::Event ev;
 
+    //input
+    sf::Vector2i mousePosWindow;
+	sf::Vector2f mousePosView;
+
+	//boom
+	std::vector<Boom *> booms;
+	float boomSpawnTimer;
+	float boomSpawnTimerMax;
+	float frame;
+	bool isBoom;
+	sf::Vector2f currBoomPos;
 
     //game over
     GameOver *gameOver;
@@ -95,18 +114,13 @@ private:
     float waitingBeginingTime;
     bool isClosed;
 
-    sf::Vector2i mousePosWindow;
-	sf::Vector2f mousePosView;
-
-	sf::Vector2f windowsize;
-
 	//loading
 	Loading *loading;
 
     //Private functions
     void initVariable();
     void initTextures();
-    void initPlayer();
+    void initPlayer(const int &playerChoice);
     void initbackground();
     void initObjects();
     void initPlanet();
@@ -115,41 +129,52 @@ private:
     void initGameOver();
     void initLoading();
     void initSound();
+    void initBoom();
 public:
     //Constructor & Destructor
-    Game(sf::RenderWindow *target);
+    Game(const int &playerChoice);
     virtual ~Game();
 
+    void running(sf::RenderWindow *window);
+
+    //main Game
+    void runMainGame(sf::RenderWindow *window);
+
     //check running
-    const bool isRunning() const;
+    const bool isRunning(sf::RenderWindow *window) const;
     bool Closed();
     int choice();
     bool isCoolDown();
-    void updateCollision();
+
+    //set origin position
+    void setOriginPos(sf::RenderWindow *window);
+    void getWindowSize(sf::RenderWindow *window);
 
     //update
-
-    void update();
-    void pollEv();
-    void updateBullets();
-    void updateObjects();
-    void updateObjectsSpeed();
-    void updatePlanet();
-    void updateCombats();
-    void updateHealthBar();
+    void update(sf::RenderWindow *window);
+    void pollEv(sf::RenderWindow *window);
+    void updateCollision(sf::RenderWindow *window);
     void updateInput();
+    void updateBullets();
+    void updateObjects(sf::RenderWindow *window);
+    void updateObjectsSpeed();
+    void updatePlanet(sf::RenderWindow *window);
+    void updateCombats();
     void updateText();
-    void updateMousePos();
-    void updateFinalPoints();
+    void updateHealthBar();
+    void updateMousePos(sf::RenderWindow *window);
     //render
+    void render(sf::RenderWindow *window);
+    void renderText(sf::RenderWindow *window);
+    void renderHealthBar(sf::RenderWindow *window);
+    void renderBoom(sf::RenderWindow *window);
 
-    void render();
-    void renderText();
-    void renderHealthBar();
-    void renderFinalPoint();
+    //loading
+    void runLoad(sf::RenderWindow *window);
 
-    void running();
-
-
+    //Game over
+    void runGameOver(sf::RenderWindow *window);
+    void updateFinalPoints();
+    void renderFinalPoint(sf::RenderWindow *window);
 };
 #endif // GAME_H

@@ -15,6 +15,10 @@ Object::Object(sf::Texture *texture, float posX, float posY, float sizeX, float 
 Object::~Object(){
 
 }
+sf::Vector2f Object::getPos()
+{
+    return this -> sprite.getPosition();
+}
 sf::FloatRect Object::getBounds(){
     return this -> sprite.getGlobalBounds();
 }

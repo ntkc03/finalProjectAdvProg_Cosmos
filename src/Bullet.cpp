@@ -1,5 +1,6 @@
 #include "Bullet.h"
 
+
 Bullet::Bullet(sf::Texture *texture, float posX, float posY, int movementSpeed_){
     this -> sprite.setTexture(*texture);
     this -> sprite.setPosition(posX, posY);

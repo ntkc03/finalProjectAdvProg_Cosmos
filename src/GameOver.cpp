@@ -16,9 +16,8 @@ void GameOver::initFontsandText()
     this -> choice2.setFont(this -> font);
 
 }
-GameOver::GameOver(sf::Vector2f windowSize_)
+GameOver::GameOver()
 {
-    this -> windowSize = windowSize_;
     this -> initFontsandText();
 
 }
@@ -30,10 +29,10 @@ int GameOver::choice()
 {
     return choices;
 }
-void GameOver::update()
+void GameOver::update(sf::Vector2f windowSize)
 {
     this -> pollEv();
-    this -> updateTexts();
+    this -> updateTexts(windowSize);
 }
 void GameOver::pollEv()
 {
@@ -48,11 +47,11 @@ void GameOver::pollEv()
     }
 
 }
-void GameOver::updateTexts()
+void GameOver::updateTexts(sf::Vector2f windowSize)
 {
     this -> setStringTexts();
     this -> setScaleTexts();
-    this -> setPos();
+    this -> setPos(windowSize);
     this -> SetColor();
 
 }
@@ -85,10 +84,10 @@ void GameOver::setScaleTexts()
     this -> choice2.setScale(1.f, 1.f);
 
 }
-void GameOver::setPos()
+void GameOver::setPos(sf::Vector2f windowSize)
 {
 
-    this -> gameOver.setPosition(this -> windowSize.x / 2 - 250.f, this -> windowSize.y / 2 - 100.f);
+    this -> gameOver.setPosition(windowSize.x / 2 - 250.f,windowSize.y / 2 - 100.f);
     this -> yourScore.setPosition(this -> gameOver.getGlobalBounds().left + 100.f, this -> gameOver.getGlobalBounds().top + this -> gameOver.getGlobalBounds().height + 10.f);
     this -> Score.setPosition(this -> yourScore.getGlobalBounds().left + this -> yourScore.getGlobalBounds().width + 20.f, this -> yourScore.getPosition().y - 5.f);
     this -> playAgain.setPosition(this -> yourScore.getGlobalBounds().left + 70.f, this -> yourScore.getGlobalBounds().top + this -> yourScore.getGlobalBounds().height + 50.f);
