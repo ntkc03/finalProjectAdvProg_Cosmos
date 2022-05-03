@@ -52,12 +52,13 @@ void Hello::running(sf::RenderWindow *window){
         }
 
     }
-    while(this -> isRunning(window))
-    {
-        this -> pollChoosePlayerEvent(window);
-        this -> updateChoosePlayer(window);
-        this -> renderChoosePlayer(window);
-        if(playerChoice != 0) break;
+    if(choices == 1){
+        while(this -> isRunning(window))
+        {
+            this -> updateChoosePlayer(window);
+            this -> renderChoosePlayer(window);
+            if(playerChoice != 0) break;
+        }
     }
     this -> bgk.stop();
 }
@@ -210,6 +211,7 @@ void Hello::pollChoosePlayerEvent(sf::RenderWindow *window)
 }
 void Hello::updateChoosePlayer(sf::RenderWindow *window)
 {
+    this -> pollChoosePlayerEvent(window);
     this -> playerRange -> updateChoosePlayer(window);
     this -> setTextOfChoice();
     this -> updateMousePos(window);

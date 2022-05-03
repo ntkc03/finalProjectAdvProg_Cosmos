@@ -1,10 +1,10 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(sf::Texture *texture, float posX, float posY, int movementSpeed_){
+Bullet::Bullet(sf::Texture *texture, float posX, float posY, float scaleX, float scaleY, int movementSpeed_){
     this -> sprite.setTexture(*texture);
     this -> sprite.setPosition(posX, posY);
-    this -> sprite.setScale(0.7f, 0.7f);
+    this -> sprite.setScale(scaleX, scaleY);
     this -> movementSpeed = movementSpeed_;
 }
 Bullet::~Bullet(){

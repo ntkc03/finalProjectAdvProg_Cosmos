@@ -1,4 +1,5 @@
 #include "Game.h"
+
 void Game::initVariable(){
     //bullet variable
     this -> timeBetween2BulletsMax = 10.f;
@@ -38,6 +39,9 @@ void Game::initTextures(){
 
     this -> resources["BULLET"] = new sf::Texture;
     this -> resources["BULLET"]->loadFromFile("image/bullet.png");
+
+    this -> resources["lazer"] = new sf::Texture;
+    this -> resources["lazer"]-> loadFromFile("image/lazer.PNG");
 
     this -> resources["alien"] = new sf::Texture;
     this -> resources["alien"]->loadFromFile("image/alien.png");
@@ -210,6 +214,7 @@ void Game::initBoom()
     this -> isBoom = false;
     this -> frame = 0;
 }
+
 Game::Game(const int &playerChoice ){
 
     this -> initVariable();
@@ -232,7 +237,10 @@ Game::~Game(){
     for(auto i: this -> bullets){
         delete i;
     }
-
+    for(auto i: lazerBullets)
+    {
+        delete i;
+    }
     for(auto i: this -> resources){
         delete i.second;
     }
@@ -325,6 +333,7 @@ void Game::update(sf::RenderWindow *window){
     this -> updateObjects(window);
     this -> updatePlanet(window);
     this -> updateCombats();
+    this -> updatelazerCombat();
     this -> updateText();
     this -> updateHealthBar();
 }
@@ -392,14 +401,33 @@ void Game::updateInput(){
 
 
     //Shooting
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isCoolDown()){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && isCoolDown()){
         this -> bullets.push_back(new Bullet(this -> resources["BULLET"],
                                     this -> player -> getPos().x + this -> player -> getBounds().width / 2.f,
                                     this -> player -> getPos().y,
+                                    0.7f,
+                                    0.7f,
                                     5.f));
         this -> bulletShoot.play();
 
     }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isCoolDown()){
+            this -> lazerBullets.push_back(new Bullet(this -> resources["lazer"],
+                                        this -> player -> getPos().x + this -> player -> getBounds().width / 2.f - 60.f,
+                                        this -> player -> getPos().y,
+                                        0.5f,
+                                        0.5f,
+                                        5.f));
+            this -> lazerBullets.push_back(new Bullet(this -> resources["lazer"],
+                                        this -> player -> getPos().x + this -> player -> getBounds().width / 2.f  + 40.f,
+                                        this -> player -> getPos().y,
+                                        0.5f,
+                                        0.5f,
+                                        5.f));
+            this -> bulletShoot.play();
+    }
+
+
 }
 void Game::updateObjectsSpeed()
 {
@@ -529,6 +557,52 @@ void Game::updateCombats(){
         }
     }
 }
+void Game::updatelazerCombat()
+{
+    for(unsigned i = 0; i < this -> objects.size(); i++){
+        for(unsigned j = 0; j < this -> lazerBullets.size(); j++){
+            if(this->objects[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(objects[i] -> getPos());
+                }
+
+                delete this -> objects[i];
+                this -> objects.erase(this -> objects.begin() + i);
+
+                delete this -> lazerBullets[j];
+                this -> lazerBullets.erase(this -> lazerBullets.begin() + j);
+                if(objects[i]->isAlien()) point += 200.f;
+                else point += 100.f;
+                this -> collision.play();
+                break;
+            }
+        }
+    }
+
+    for(unsigned i = 0; i < this -> planets.size(); i++){
+        for(unsigned j = 0; j < this -> lazerBullets.size(); j++){
+            if(this->planets[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(this -> planets[i] -> getPos());
+                }
+                delete this -> planets[i];
+                this -> planets.erase(this -> planets.begin() + i);
+
+                delete this -> lazerBullets[j];
+                this -> lazerBullets.erase(this -> lazerBullets.begin() + j);
+                this -> curr_health -= 1.f;
+                this -> loseHeal.play();
+                break;
+
+            }
+        }
+    }
+
+}
 void Game::updateBullets(){
     /*
     return void:
@@ -544,6 +618,15 @@ void Game::updateBullets(){
         else idx++;
     }
 
+    idx = 0;
+    for(auto *i: this -> lazerBullets){
+        i->update();
+        if(i ->getBounds().top + i -> getBounds().height <= 0.f){
+            delete this -> lazerBullets.at(idx);
+            this -> lazerBullets.erase(this -> lazerBullets.begin() + idx);
+        }
+        else idx++;
+    }
 }
 void Game::updateText(){
     std::stringstream ss;
@@ -573,6 +656,10 @@ void Game::render(sf::RenderWindow *window){
     this -> background -> render(window);
     this -> player -> render(window);
     for(auto *i: this -> bullets){
+        i -> render(window);
+    }
+    for(auto *i: this -> lazerBullets)
+    {
         i -> render(window);
     }
     for(auto *i: this -> objects){

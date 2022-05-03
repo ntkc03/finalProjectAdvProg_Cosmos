@@ -12,7 +12,7 @@ private:
     float movementSpeed;
 
 public:
-    Bullet(sf::Texture *texture, float posX, float posY, int movementSpeed_);
+    Bullet(sf::Texture *texture, float posX, float posY, float scaleX, float scaleY,int movementSpeed_);
     virtual ~Bullet();
 
     const sf::FloatRect getBounds();

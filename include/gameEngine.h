@@ -3,7 +3,7 @@
 
 #include "Game.h"
 #include "Hello.h"
-
+#include "Rule.h"
 class gameEngine
 {
 private:

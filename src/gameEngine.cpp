@@ -52,11 +52,19 @@ void gameEngine::running()
                 if(isContinue == false) break;
             }
             else if(hello.choice() == 2){
-                    break;
+                    Rule rule;
+                    rule.run(this -> window);
+                    if(rule.isClosed()){
+                        break;
+                    }
+                    else{
+                        if(rule.choice() == 1) continue;
+                    }
             }
             else {
                 break;
             }
         }
     }
+
 }

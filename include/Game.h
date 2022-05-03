@@ -85,7 +85,7 @@ private:
     std::vector<Bullet *> bullets;
     sf::SoundBuffer bulletShootBuffer;
     sf::Sound bulletShoot;
-
+    std::vector<Bullet *> lazerBullets;
 
     //collision
     sf::SoundBuffer collisionBuf;
@@ -160,6 +160,7 @@ public:
     void updateObjectsSpeed();
     void updatePlanet(sf::RenderWindow *window);
     void updateCombats();
+    void updatelazerCombat();
     void updateText();
     void updateHealthBar();
     void updateMousePos(sf::RenderWindow *window);
