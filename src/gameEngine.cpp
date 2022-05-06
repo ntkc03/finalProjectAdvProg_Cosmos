@@ -22,15 +22,15 @@ gameEngine::~gameEngine()
 }
 void gameEngine::running()
 {
-
+    Hello hello;
     while(true){
-        Hello hello;
         hello.running(this -> window);
         if(hello.isClosed()) {
             break;
         }
         else{
             if(hello.choice() == 1){
+                hello.setChoiceAfterOnShift(0);
                 bool isContinue = true;
                 while(isContinue){
                     Game game(hello.getplayerChoice());
@@ -52,19 +52,23 @@ void gameEngine::running()
                 if(isContinue == false) break;
             }
             else if(hello.choice() == 2){
-                    Rule rule;
-                    rule.run(this -> window);
-                    if(rule.isClosed()){
-                        break;
-                    }
-                    else{
-                        if(rule.choice() == 1) continue;
-                    }
+                hello.setChoiceAfterOnShift(0);
+                Rule rule;
+                rule.run(this -> window);
+                if(rule.isClosed())
+                {
+                    break;
+                }
+                else if(rule.choice() == 1){
+                    continue;
+                }
+
             }
             else {
                 break;
             }
         }
+
     }
 
 }

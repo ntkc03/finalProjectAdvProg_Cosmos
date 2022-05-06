@@ -72,6 +72,10 @@ int Hello::choice()
 {
     return this -> choices;
 }
+void Hello::setChoiceAfterOnShift(int choice)
+{
+    this -> choices = choice;
+}
 void Hello::update(sf::RenderWindow *window)
 {
     this -> PollEv(window);

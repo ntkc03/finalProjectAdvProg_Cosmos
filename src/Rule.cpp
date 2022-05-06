@@ -1,4 +1,9 @@
 #include "Rule.h"
+void Rule::initVariables()
+{
+    this -> closed = false;
+    this -> choices = 0;
+}
 void Rule::initFont()
 {
     this -> titleFont.loadFromFile("fonts/Pixeboy.ttf");
@@ -10,13 +15,18 @@ void Rule::initText()
     this -> title.setString("How to play");
 
     this -> intruction1.setFont(this -> contentFont);
-    this -> intruction1.setString("Move: ");
+    this -> intruction1.setString("Plot: Star War is coming. You're the captain of a warship.\nYou have to avoid or destroy rocks and enermy's space ships.\nIf you knock down any rocks or alien's space ships,you can \nearn points, but if you crash into them, you may lose health.\nAnd you can fly into a planet to get aids and health, but\nif you shoot at any planets, you may violate universe's law\nand you have to lose your health.");
 
     this -> intruction2.setFont(this -> contentFont);
-    this -> intruction2.setString("Shoot: Press A for Lazer Mode, press S for Bullet Mode.");
+    this -> intruction2.setString("Move: ");
+
+    this -> intruction3.setFont(this -> contentFont);
+    this -> intruction3.setString("Shoot: Press A for Lazer Mode, press S for Bullet Mode.");
+
+
 
     this -> title_.setFont(this -> titleFont);
-    this -> title_.setString("Score");
+    this -> title_.setString("Score: ");
 
     this -> scoreCal1.setFont(this -> contentFont);
     this -> scoreCal1.setString("Alien: + 200 pts.");
@@ -54,7 +64,7 @@ void Rule::initBKG()
  }
 Rule::Rule()
 {
-    this -> choices = 0;
+    this -> initVariables();
     this -> initFont();
     this -> initText();
     this -> initTexture();
@@ -74,17 +84,18 @@ const bool Rule::isRunning(sf::RenderWindow *window) const
 }
 bool Rule::isClosed()
 {
-    return closed;
+    return this -> closed;
 }
 int Rule::choice()
 {
-    return choices;
+    return this -> choices;
 }
 void Rule::run(sf::RenderWindow *window)
 {
-    while(this -> isRunning(window) && choices == 0){
+    while(this -> isRunning(window)){
         this -> update(window);
         this -> render(window);
+        if(choices != 0) break;
     }
 }
 void Rule::update(sf::RenderWindow *window)
@@ -110,6 +121,7 @@ void Rule::pollEve(sf::RenderWindow * window)
                 if(this -> returnButt.getGlobalBounds().contains(this -> mousePosView)){
                     choices = 1;
                 }
+                else choices = 0;
         }
     }
 }
@@ -122,12 +134,14 @@ void Rule::setPos(sf::RenderWindow *window)
 {
     this -> title.setPosition(window -> getSize().x / 2.0 - 150.f, 10.f);
     this -> intruction1.setPosition(10.f, 100.f);
-    this -> intruction2.setPosition(10.f, this -> intruction1.getGlobalBounds().top + this -> intruction1.getGlobalBounds().height + 100.f);
-    this -> button.setPosition(this -> intruction1.getGlobalBounds().left + this -> intruction1.getGlobalBounds().width + 30.f, 100.f);
-    this -> title_.setPosition(window -> getSize().x / 2.0 - 100.f,
+    this -> intruction2.setPosition(10.f, this -> intruction1.getGlobalBounds().top + this -> intruction1.getGlobalBounds().height + 10.f);
+    this -> button.setPosition(this -> intruction2.getGlobalBounds().left + this -> intruction2.getGlobalBounds().width + 30.f, this -> intruction2.getPosition().y);
+    this -> intruction3.setPosition(10.f, this -> button.getGlobalBounds().top + this -> button.getGlobalBounds().height + 10.f);
+    this -> title_.setPosition(10.f,
                               this -> button.getGlobalBounds().top + this -> button.getGlobalBounds().height + 50.f);
-    this -> scoreCal1.setPosition(window -> getSize().x / 2.0 - 180.f, this -> title_.getGlobalBounds().top + this -> title_.getGlobalBounds().height + 10.f);
-    this -> scoreCal2.setPosition(window -> getSize().x / 2.0 - 180.f, this -> scoreCal1.getGlobalBounds().top + this -> scoreCal1.getGlobalBounds().height + 10.f);
+    this -> scoreCal1.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f, this -> title_.getPosition().y + 10.f);
+    this -> scoreCal2.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f,
+                                  this -> scoreCal1.getGlobalBounds().top + this -> scoreCal2.getGlobalBounds().height + 10.f );
     this -> returnButt.setPosition(1.f, 1.f);
 }
 void Rule::setScale()
@@ -135,16 +149,19 @@ void Rule::setScale()
     this -> title.setScale(2.f, 2.f);
     this -> intruction1.setScale(1.f, 1.f);
     this -> intruction2.setScale(1.f, 1.f);
+    this -> intruction3.setScale(1.f, 1.f);
     this -> button.setScale(0.8f, 0.8f);
     this -> title_.setScale(2.f, 2.f);
-    this -> scoreCal1.setScale(1.5f, 1.5f);
-    this -> scoreCal2.setScale(1.5f, 1.5f);
+    this -> scoreCal1.setScale(1.f, 1.f);
+    this -> scoreCal2.setScale(1.f, 1.f);
     this -> returnButt.setScale(0.8f, 0.8f);
 }
 void Rule::setColor()
 {
     this -> title.setColor(sf::Color::Red);
     this -> title_.setColor(sf::Color::Red);
+    //this -> scoreCal1.setColor(sf::Color::Red);
+    //this -> scoreCal2.setColor(sf::Color::Red);
 }
 void Rule::render(sf::RenderWindow *window)
 {
@@ -153,6 +170,7 @@ void Rule::render(sf::RenderWindow *window)
     window -> draw(this -> title);
     window -> draw(this -> intruction1);
     window -> draw(this -> intruction2);
+    window -> draw(this -> intruction3);
     window -> draw(this -> button);
     window -> draw(this -> title_);
     window -> draw(this -> scoreCal1);

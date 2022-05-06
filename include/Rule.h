@@ -15,6 +15,7 @@ private:
     sf::Text title;
     sf::Text intruction1;
     sf::Text intruction2;
+    sf::Text intruction3;
     sf::Text title_;
     sf::Text scoreCal1, scoreCal2;
 
@@ -34,6 +35,7 @@ private:
 	int choices;
     bool closed;
     //private function
+    void initVariables();
     void initFont();
     void initText();
     void initTexture();

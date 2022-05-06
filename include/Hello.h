@@ -53,6 +53,7 @@ public:
     const bool isRunning(sf::RenderWindow *window) const;
     bool isClosed();
     int choice();
+    void setChoiceAfterOnShift(int choice);
 
 
     //update
