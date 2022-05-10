@@ -5,17 +5,22 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-
+#include "Star.h"
 class Background
 {
- private:
-    sf::Sprite sprite;
+private:
+    std::vector<Star*> stars;
+    float numOfStarMax;
 
+    void initVariable();
+    void initStar();
 public:
-    Background(sf::Texture *texture);
+    Background();
     virtual ~Background();
-    void setSize(sf::Vector2f bkgSize);
-    void render(sf::RenderTarget *target);
+    void setFirstPos(sf::RenderWindow *window);
+    void moveStars(sf::RenderWindow *window, float x, float y);
+    void update(sf::RenderWindow * window );
+    void render(sf::RenderWindow *target);
 };
 
 #endif // BACKGROUND_H

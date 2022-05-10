@@ -20,6 +20,7 @@
 #include "GameOver.h"
 #include "Loading.h"
 #include "Boom.h"
+#include "Pause.h"
 
 class Game{
 private:
@@ -74,8 +75,13 @@ private:
     float timeBetween2Objects;
 
     //Bullet CoolDown
+    float timeBetween2Shoot;
+    float timeBetween2ShootsMax;
     float timeBetween2Bullets;
     float timeBetween2BulletsMax;
+    float radius;
+    sf::CircleShape shootedArea;
+    std::vector<int> shootedObjectIndex;
 
     // planet
     float timeBetween2Planets;
@@ -106,6 +112,15 @@ private:
 	bool isBoom;
 	sf::Vector2f currBoomPos;
 
+	//pause
+	Pause *pause;
+	bool isPause;
+
+	//time
+	sf::Texture clockText;
+	sf::Sprite clock;
+	bool isShooted;
+	bool isEndTimer;
     //game over
     GameOver *gameOver;
     sf::SoundBuffer bgkGOBuf;
@@ -130,6 +145,8 @@ private:
     void initLoading();
     void initSound();
     void initBoom();
+    void initShootedArea();
+    void initClock();
 public:
     //Constructor & Destructor
     Game(const int &playerChoice);
@@ -145,21 +162,23 @@ public:
     bool Closed();
     int choice();
     bool isCoolDown();
+    void CoolDownBullets();
 
     //set origin position
     void setOriginPos(sf::RenderWindow *window);
     void getWindowSize(sf::RenderWindow *window);
 
     //update
+    void updatePause(sf::RenderWindow *window);
     void update(sf::RenderWindow *window);
     void pollEv(sf::RenderWindow *window);
     void updateCollision(sf::RenderWindow *window);
-    void updateInput();
+    void updateInput(sf::RenderWindow *window);
     void updateBullets();
     void updateObjects(sf::RenderWindow *window);
     void updateObjectsSpeed();
     void updatePlanet(sf::RenderWindow *window);
-    void updateCombats();
+    void updateBulletsCombats();
     void updatelazerCombat();
     void updateText();
     void updateHealthBar();

@@ -5,60 +5,87 @@ void Hello::initVariables()
     this -> choices = 0;
     this -> closed = false;
 
-    //background music
-
-    this -> bgkBuf.loadFromFile("audio/bgkmusicHello.wav");
-    this -> bgk.setBuffer(this -> bgkBuf);
-    this -> bgk.setLoop(true);
-
     this -> playerRange = new Player;
     this -> playerChoice = 0;
+
+    this -> isReturn = false;
 }
 
 void Hello::initFont(){
-    this -> font1.loadFromFile("fonts/DayDream.ttf");
+    this -> font1.loadFromFile("fonts/04B.ttf");
     this -> font2.loadFromFile("fonts/ConnectionIi.otf");
     this -> font3.loadFromFile("fonts/PixeBoy.ttf");
 }
 void Hello::initBKG()
 {
-    this -> bkg = new sf::Texture;
-    if(!this -> bkg -> loadFromFile("image/bkg.jpg"))
-    {
-        std::cout << "ERROR::HELLO::INITBKG::Can't load image\n";
-    }
-    this -> background = new Background(bkg);
-    this -> background ->setSize(sf::Vector2f(1.9f, 1.9f));
+
+    this -> background = new Background;
+}
+void Hello::initSound()
+{
+    //background music
+    this -> bgkBuf.loadFromFile("audio/bgkmusicHello.wav");
+    this -> bgk.setBuffer(this -> bgkBuf);
+    this -> bgk.setLoop(true);
+}
+void Hello::initImage()
+{
+   this -> returnTex.loadFromFile("image/exit.PNG");
+   this -> returnButton.setTexture(this -> returnTex);
+   this -> returnButton.setScale(0.3f, 0.3f);
+   this -> returnButton.setPosition(0.f, 0.f);
 }
 Hello::Hello(){
     this -> initVariables();
     this -> initFont();
     this -> initBKG();
+    this -> initSound();
+    this -> initImage();
 }
 
 Hello::~Hello()
 {
     delete background;
-    delete bkg;
 }
 void Hello::running(sf::RenderWindow *window){
     this -> bgk.play();
-    while(this -> isRunning(window))
-    {
-        this -> update(window);
-        this -> render(window);
-        if(this -> choice() != 0) {
-            break;
-        }
-
-    }
-    if(choices == 1){
+    this -> background -> setFirstPos(window);
+    while(true){
         while(this -> isRunning(window))
         {
-            this -> updateChoosePlayer(window);
-            this -> renderChoosePlayer(window);
-            if(playerChoice != 0) break;
+            this -> update(window);
+            this -> render(window);
+            if(this -> choice() != 0) {
+                break;
+            }
+
         }
+        if(choices == 1){
+            while(this -> isRunning(window))
+            {
+                this -> updateChoosePlayer(window);
+                this -> renderChoosePlayer(window);
+                if(playerChoice != 0 || this -> isReturn) break;
+            }
+        }
+        else if(choices == 2)
+        {
+            Rule rule;
+            rule.run(window);
+            if(rule.isClosed())
+            {
+                break;
+            }
+            this -> isReturn = rule.isReturnFun();
+            choices = 0;
+        }
+        if(isReturn)
+        {
+            this -> choices = 0;
+            this -> isReturn = false;
+            continue;
+        }
+        break;
     }
     this -> bgk.stop();
 }
@@ -78,6 +105,7 @@ void Hello::setChoiceAfterOnShift(int choice)
 }
 void Hello::update(sf::RenderWindow *window)
 {
+    this -> background -> update(window);
     this -> PollEv(window);
     this -> updateMousePos(window);
     this -> updateText(window);
@@ -168,7 +196,7 @@ void Hello::setFont()
 void Hello::setScale()
 {
     this -> welcome.setScale(1.5f, 1.5f);
-    this -> name.setScale(2.f, 2.f);
+    this -> name.setScale(2.5f, 2.5f);
     this -> demand.setScale(1.5f, 1.5f);
     this -> choice1.setScale(1.5f, 1.5f);
     this -> choice2.setScale(1.5f, 1.5f);
@@ -190,7 +218,7 @@ void Hello::render(sf::RenderWindow *window)
 
 void Hello::pollChoosePlayerEvent(sf::RenderWindow *window)
 {
-    while(window->pollEvent(this -> ev)){
+    if(window->pollEvent(this -> ev)){
         if(ev.type == sf::Event::Closed){
                 window -> close();
                 closed = true;
@@ -210,15 +238,23 @@ void Hello::pollChoosePlayerEvent(sf::RenderWindow *window)
                 {
                     playerChoice = 3;
                 }
+                else if(this -> returnButton.getGlobalBounds().contains(this -> mousePosView))
+                {
+                    std::cout << "hi\n";
+                    isReturn = true;
+                }
+
         }
     }
 }
 void Hello::updateChoosePlayer(sf::RenderWindow *window)
 {
     this -> pollChoosePlayerEvent(window);
+    this -> updateMousePos(window);
+    this -> background -> update(window);
     this -> playerRange -> updateChoosePlayer(window);
     this -> setTextOfChoice();
-    this -> updateMousePos(window);
+
 }
 void Hello::setTextOfChoice()
 {
@@ -234,6 +270,7 @@ void Hello::renderChoosePlayer(sf::RenderWindow *window)
     this -> background -> render(window);
     this -> playerRange -> renderChoosePlayer(window);
     window -> draw(this -> textOfchoice);
+    window -> draw(this -> returnButton);
     window -> display();
 }
 int Hello::getplayerChoice()

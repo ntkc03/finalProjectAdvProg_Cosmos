@@ -9,6 +9,7 @@
 #include <ctime>
 #include "background.h"
 #include "Player.h"
+#include "Rule.h"
 class Hello
 {
 private:
@@ -23,7 +24,10 @@ private:
     sf::Text choice2;
     sf::Text choice3;
     Background *background;
-    sf::Texture* bkg;
+
+    sf::Texture returnTex;
+    sf::Sprite returnButton;
+    bool isReturn;
 
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
@@ -42,6 +46,8 @@ private:
     void initVariables();
     void initFont();
     void initBKG();
+    void initSound();
+    void initImage();
 public:
     //Constructor & Destructor
     Hello();

@@ -24,15 +24,13 @@ private:
     sf::Texture returnButt_;
     sf::Sprite returnButt;
     Background *background;
-    sf::Texture* bkg;
 
-    sf::CircleShape circle;
 
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 
 	sf::Event ev;
-	int choices;
+	bool isReturn;
     bool closed;
     //private function
     void initVariables();
@@ -41,14 +39,13 @@ private:
     void initTexture();
     void initSprite();
     void initBKG();
-    void initShape();
 public:
     Rule();
     virtual ~Rule();
 
     const bool isRunning(sf::RenderWindow *window) const;
     bool isClosed();
-    int choice();
+    bool isReturnFun();
 
     void run(sf::RenderWindow *window);
     void update(sf::RenderWindow *window);

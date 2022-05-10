@@ -2,7 +2,7 @@
 void Rule::initVariables()
 {
     this -> closed = false;
-    this -> choices = 0;
+    this -> isReturn = false;
 }
 void Rule::initFont()
 {
@@ -46,22 +46,8 @@ void Rule::initSprite()
 }
 void Rule::initBKG()
 {
-    this -> bkg = new sf::Texture;
-    if(!this -> bkg -> loadFromFile("image/bkg.jpg"))
-    {
-        std::cout << "ERROR::HELLO::INITBKG::Can't load image\n";
-    }
-    this -> background = new Background(bkg);
-    this -> background ->setSize(sf::Vector2f(1.9f, 1.9f));
+    this -> background = new Background;
 }
- void Rule::initShape()
- {
-     this -> circle.setRadius(35.f);
-     this -> circle.setFillColor(sf::Color::Black);
-     this -> circle.setOutlineColor(sf::Color::White);
-     this -> circle.setOutlineThickness(5.f);
-     this -> circle.setPosition(0.f, 0.f);
- }
 Rule::Rule()
 {
     this -> initVariables();
@@ -69,14 +55,12 @@ Rule::Rule()
     this -> initText();
     this -> initTexture();
     this -> initSprite();
-    this -> initShape();
     this -> initBKG();
 }
 
 Rule::~Rule()
 {
     delete background;
-    delete bkg;
 }
 const bool Rule::isRunning(sf::RenderWindow *window) const
 {
@@ -86,20 +70,22 @@ bool Rule::isClosed()
 {
     return this -> closed;
 }
-int Rule::choice()
+bool Rule::isReturnFun()
 {
-    return this -> choices;
+    return this -> isReturn;
 }
 void Rule::run(sf::RenderWindow *window)
 {
+    this -> background -> setFirstPos(window);
     while(this -> isRunning(window)){
         this -> update(window);
         this -> render(window);
-        if(choices != 0) break;
+        if(isReturn) break;
     }
 }
 void Rule::update(sf::RenderWindow *window)
 {
+    this -> background -> update(window);
     this -> pollEve(window);
     this -> updateMousePos(window);
     this -> setPos(window);
@@ -119,10 +105,10 @@ void Rule::pollEve(sf::RenderWindow * window)
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                 if(this -> returnButt.getGlobalBounds().contains(this -> mousePosView)){
-                    choices = 1;
+                    isReturn = true;
                 }
-                else choices = 0;
         }
+
     }
 }
 void Rule::updateMousePos(sf::RenderWindow * window)
@@ -142,7 +128,7 @@ void Rule::setPos(sf::RenderWindow *window)
     this -> scoreCal1.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f, this -> title_.getPosition().y + 10.f);
     this -> scoreCal2.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f,
                                   this -> scoreCal1.getGlobalBounds().top + this -> scoreCal2.getGlobalBounds().height + 10.f );
-    this -> returnButt.setPosition(1.f, 1.f);
+    this -> returnButt.setPosition(0.f, 0.f);
 }
 void Rule::setScale()
 {
@@ -154,14 +140,12 @@ void Rule::setScale()
     this -> title_.setScale(2.f, 2.f);
     this -> scoreCal1.setScale(1.f, 1.f);
     this -> scoreCal2.setScale(1.f, 1.f);
-    this -> returnButt.setScale(0.8f, 0.8f);
+    this -> returnButt.setScale(0.3f, 0.3f);
 }
 void Rule::setColor()
 {
     this -> title.setColor(sf::Color::Red);
     this -> title_.setColor(sf::Color::Red);
-    //this -> scoreCal1.setColor(sf::Color::Red);
-    //this -> scoreCal2.setColor(sf::Color::Red);
 }
 void Rule::render(sf::RenderWindow *window)
 {
@@ -175,7 +159,6 @@ void Rule::render(sf::RenderWindow *window)
     window -> draw(this -> title_);
     window -> draw(this -> scoreCal1);
     window -> draw(this -> scoreCal2);
-    window -> draw(this -> circle);
     window -> draw(this -> returnButt);
     window -> display();
 }

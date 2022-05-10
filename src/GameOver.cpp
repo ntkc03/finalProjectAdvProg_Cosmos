@@ -7,7 +7,7 @@ void GameOver::initVariable()
 void GameOver::initFontsandText()
 {
     this -> font.loadFromFile("fonts/ConnectionIi.otf");
-    this -> gameOverFont.loadFromFile("fonts/Daydream.ttf");
+    this -> gameOverFont.loadFromFile("fonts/04B.TTF");
     this -> yourScore.setFont(this -> font);
     this -> Score.setFont(this -> font);
     this -> gameOver.setFont(this -> gameOverFont);
