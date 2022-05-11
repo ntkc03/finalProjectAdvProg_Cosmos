@@ -19,9 +19,7 @@ private:
     sf::Text choice2;
     sf::Font font;
     sf::Font gameOverFont;
-
     int choices;
-
     sf::Event ev;
 
 	sf::Vector2f mousePosView;

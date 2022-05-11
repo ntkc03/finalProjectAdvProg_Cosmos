@@ -25,7 +25,6 @@ private:
     sf::Sprite returnButt;
     Background *background;
 
-
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 

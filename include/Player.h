@@ -41,6 +41,7 @@ public:
     void getChoice(int choice);
     void setString();
     sf::FloatRect getBounds(int choice);
+    sf::Vector2f getPos(int choice);
     void renderChoosePlayer(sf::RenderTarget * target);
 
 

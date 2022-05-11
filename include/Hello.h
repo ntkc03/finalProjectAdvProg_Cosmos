@@ -31,10 +31,13 @@ private:
 
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
+	sf::RectangleShape rec;
 
 	//music
 	sf::SoundBuffer bgkBuf;
     sf::Sound bgk;
+    sf::SoundBuffer clickBuff;
+	sf::Sound click;
 
     //Player choice
     int playerChoice;
@@ -77,12 +80,15 @@ public:
 
     //render
     void render(sf::RenderWindow *window);
+    void renderHightLight1(sf::RenderWindow *window);
+    void createHightLight(sf::Vector2f *Size, sf::Vector2f *pos);
 
     //choose Player
     void pollChoosePlayerEvent(sf::RenderWindow *window);
     void updateChoosePlayer(sf::RenderWindow *window);
     void setTextOfChoice();
     void renderChoosePlayer(sf::RenderWindow *window);
+    void renderHightLight2(sf::RenderWindow *window);
     int getplayerChoice();
 };
 

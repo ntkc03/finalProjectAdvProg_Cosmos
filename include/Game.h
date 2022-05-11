@@ -104,6 +104,7 @@ private:
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 
+
 	//boom
 	std::vector<Boom *> booms;
 	float boomSpawnTimer;
@@ -121,6 +122,8 @@ private:
 	sf::Sprite clock;
 	bool isShooted;
 	bool isEndTimer;
+	sf::SoundBuffer clockBuff;
+	sf::Sound clockSound;
     //game over
     GameOver *gameOver;
     sf::SoundBuffer bgkGOBuf;
