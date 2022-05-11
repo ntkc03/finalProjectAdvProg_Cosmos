@@ -109,6 +109,12 @@ sf::FloatRect Player::getBounds(int choice)
     else if(choice == 2) return this -> sprite2.getGlobalBounds();
     else if(choice == 3) return this -> sprite3.getGlobalBounds();
 }
+sf::Vector2f Player::getPos(int choice)
+{
+    if(choice == 1) return this -> sprite1.getPosition();
+    else if(choice == 2) return this -> sprite2.getPosition();
+    else if(choice == 3) return this -> sprite3.getPosition();
+}
 void Player::setPosChoosePlayer(sf::RenderWindow *window)
 {
 
@@ -117,7 +123,7 @@ void Player::setPosChoosePlayer(sf::RenderWindow *window)
     this -> sprite3.setPosition(this -> sprite2.getPosition().x + 300.f, sprite2.getPosition().y);
 
     this -> speedText1.setPosition(this -> sprite1.getPosition().x + 30.f, this -> sprite1.getGlobalBounds().top + this -> sprite1.getGlobalBounds().height + 10.f);
-    this -> speedText2.setPosition(this -> sprite2.getPosition().x + 30.f, this -> speedText1.getPosition().y);
+    this -> speedText2.setPosition(this -> sprite2.getPosition().x + 40.f, this -> speedText1.getPosition().y);
     this -> speedText3.setPosition(this -> sprite3.getPosition().x + 30.f, this -> speedText1.getPosition().y);
 }
 void Player::renderChoosePlayer(sf::RenderTarget * target)

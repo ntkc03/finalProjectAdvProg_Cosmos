@@ -3,6 +3,7 @@ void Rule::initVariables()
 {
     this -> closed = false;
     this -> isReturn = false;
+
 }
 void Rule::initFont()
 {

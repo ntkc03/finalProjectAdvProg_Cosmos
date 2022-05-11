@@ -202,6 +202,13 @@ void Game::initSound()
     this -> loseHealBuf.loadFromFile("audio/loseHeal.wav");
     this -> loseHeal.setBuffer(this -> loseHealBuf);
 
+    this -> clockBuff.loadFromFile("audio/clock.wav");
+    this -> clockSound.setBuffer(this -> clockBuff);
+    this -> clockSound.setLoop(true);
+
+
+
+
 }
 void Game::initBoom()
 {
@@ -269,6 +276,8 @@ Game::~Game(){
     }
     delete gameOver;
     delete loading;
+    delete pause;
+    this -> clockSound.stop();
 }
 
 void Game::running(sf::RenderWindow *window){
@@ -297,11 +306,13 @@ void Game::runMainGame(sf::RenderWindow *window)
     while(this -> isRunning(window) && curr_health > 0.f){
         this -> updatePause(window);
         this -> bgk.pause();
-        if(pause -> isPlay() == false){
-        //update
-        this -> bgk.play();
-        this -> update(window);
+        if(pause -> isContinue() == false){
+            //update
+            this -> bgk.play();
+            this -> update(window);
         }
+        if(pause -> isPlay() == true)
+            break;
         //render
         this -> render(window);
     }
@@ -335,9 +346,13 @@ void Game::CoolDownBullets(){
 
     if(this -> timeBetween2Bullets >= this -> timeBetween2BulletsMax){
         this -> timeBetween2Bullets = 0.f;
+        this -> clockSound.pause();
         this -> isShooted = false;
     }
-    else timeBetween2Bullets += 0.5f;
+    else
+    {
+        timeBetween2Bullets += 0.5f;
+    }
 }
 void Game::setOriginPos(sf::RenderWindow *window)
 {
@@ -347,7 +362,7 @@ void Game::setOriginPos(sf::RenderWindow *window)
     this -> surround.setPosition(window -> getSize().x - healthBarWidth - 4.f , 10.f);
     this -> fill.setPosition(surround.getPosition());
     this -> background -> setFirstPos(window);
-    this -> pause -> setPos(window, window -> getSize().x - 250.f, 50.f);
+    this -> pause -> setPos(window, window -> getSize().x - 320.f, 50.f);
     this -> clock.setPosition(15.f, 60.f);
 }
 void Game::getWindowSize(sf::RenderWindow *window)
@@ -460,6 +475,7 @@ void Game::updateInput(sf::RenderWindow *window){
     //Shooting
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && isCoolDown() && isEndTimer){
         this -> isShooted = true;
+        this -> clockSound.play();
         this -> bullets.push_back(new Bullet(this -> resources["BULLET"],
                                     this -> player -> getPos().x + this -> player -> getBounds().width / 2.f,
                                     this -> player -> getPos().y,
@@ -582,6 +598,8 @@ void Game::updateBulletsCombats(){
                        {
                            delete this -> objects[num];
                            this -> objects.erase(this -> objects.begin() + num);
+                           if(objects[i]->isAlien()) point += 200.f;
+                            else point += 100.f;
                        }
                        else num++;
                 }
@@ -589,8 +607,7 @@ void Game::updateBulletsCombats(){
 
                 delete this -> bullets[j];
                 this -> bullets.erase(this -> bullets.begin() + j);
-                if(objects[i]->isAlien()) point += 200.f;
-                else point += 100.f;
+
                 this -> collision.play();
                 break;
             }
@@ -744,6 +761,7 @@ void Game::render(sf::RenderWindow *window){
     if(this -> timeBetween2Bullets < timeBetween2BulletsMax && isShooted)
     {
         window -> draw(this -> clock);
+
     }
 
     window -> display();
@@ -781,7 +799,7 @@ void Game::renderBoom(sf::RenderWindow *window)
 void Game::runGameOver(sf::RenderWindow *window)
 {
     this -> bgkGO.play();
-    while(this -> isRunning(window) && curr_health <= 0.f)
+    while(this -> isRunning(window) && (curr_health <= 0.f || pause -> isPlay() == true))
     {
         this -> pollEv(window);
         this -> updateMousePos(window);
