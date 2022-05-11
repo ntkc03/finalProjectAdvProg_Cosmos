@@ -1,15 +1,10 @@
 #include "Object.h"
 
-void Object::initVariable(){
-
-}
-
 Object::Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY,float speed, bool isAlien_){
     this -> movementSpeed = speed;
     this -> sprite.setTexture(*texture);
     this -> sprite.setPosition(posX, posY);
     this -> sprite.setScale(sizeX, sizeY);
-    this -> initVariable();
     this -> Alien = isAlien_;
 }
 Object::~Object(){

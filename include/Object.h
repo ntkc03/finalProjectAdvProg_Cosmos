@@ -11,9 +11,6 @@ private:
     sf::Sprite sprite;
     float movementSpeed;
     bool Alien;
-
-
-    void initVariable();
 public:
 
     Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY, float speed, bool isAlien_);

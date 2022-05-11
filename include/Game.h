@@ -180,7 +180,9 @@ public:
     void updateBullets();
     void updateObjects(sf::RenderWindow *window);
     void updateObjectsSpeed();
+    void updateObjectsCollision(sf::RenderWindow *window);
     void updatePlanet(sf::RenderWindow *window);
+    void updatePlanetCollision(sf::RenderWindow *window);
     void updateBulletsCombats();
     void updatelazerCombat();
     void updateText();
@@ -197,7 +199,7 @@ public:
 
     //Game over
     void runGameOver(sf::RenderWindow *window);
-    void updateFinalPoints();
+    void updateFinalPoints(sf::RenderWindow *window);
     void renderFinalPoint(sf::RenderWindow *window);
 };
 #endif // GAME_H
