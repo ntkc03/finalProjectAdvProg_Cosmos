@@ -37,6 +37,8 @@ Player::~Player(){
 
 }
 
+
+// Player in main Game
 sf::Vector2f Player::getPos(){
     return this -> sprite.getPosition();
 }
@@ -46,8 +48,6 @@ sf::FloatRect Player::getBounds(){
 void Player::setPos(const sf::Vector2f &pos){
     this -> sprite.setPosition(pos);
 }
-
-
 void Player::setChoice()
 {
     if(this -> choice == 1)
@@ -79,7 +79,7 @@ void Player::render(sf::RenderTarget *target){
     target->draw(this -> sprite);
 }
 
-
+//Players in Hello
 void Player::updateChoosePlayer(sf::RenderWindow *window)
 {
     this -> setString();

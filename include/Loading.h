@@ -22,13 +22,15 @@ public:
     Loading();
     virtual ~Loading();
     float getNumber();
+
+    void update(sf::Vector2f windowsize);
     void updateTexts(sf::Vector2f windowsize);
     void setFont();
     void setString();
     void setScale();
     void setColor();
     void setPos(sf::Vector2f windowsize);
-    void update(sf::Vector2f windowsize);
+
     void render(sf::RenderTarget *target);
 };
 

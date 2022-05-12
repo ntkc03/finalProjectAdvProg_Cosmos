@@ -4,6 +4,7 @@ const bool Hello::isRunning(sf::RenderWindow *window) const{
     return window->isOpen();
 }
 
+//menu part
 void Hello::update(sf::RenderWindow *window)
 {
     this -> background -> update(window);
@@ -45,6 +46,8 @@ void Hello::updateMousePos(sf::RenderWindow *window){
 	this->mousePosView = window->mapPixelToCoords(this->mousePosWindow);
 }
 
+
+//choose player part
 void Hello::updateChoosePlayer(sf::RenderWindow *window)
 {
     this -> pollChoosePlayerEvent(window);

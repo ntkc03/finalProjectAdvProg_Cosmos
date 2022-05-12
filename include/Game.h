@@ -57,6 +57,8 @@ private:
     //Object
     std::vector<std::string> objectTypes;
     std::vector<Object *>objects;
+
+    //next level
     float objectSpeed;
     float level;
     sf::Text speedup;
@@ -79,6 +81,8 @@ private:
     float timeBetween2ShootsMax;
     float timeBetween2Bullets;
     float timeBetween2BulletsMax;
+
+    //bullets shooted area
     float radius;
     sf::CircleShape shootedArea;
     std::vector<int> shootedObjectIndex;
@@ -124,6 +128,7 @@ private:
 	bool isEndTimer;
 	sf::SoundBuffer clockBuff;
 	sf::Sound clockSound;
+
     //game over
     GameOver *gameOver;
     sf::SoundBuffer bgkGOBuf;
@@ -188,6 +193,7 @@ public:
     void updateText();
     void updateHealthBar();
     void updateMousePos(sf::RenderWindow *window);
+
     //render
     void render(sf::RenderWindow *window);
     void renderText(sf::RenderWindow *window);

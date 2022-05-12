@@ -15,8 +15,10 @@ class Hello
 private:
 
     sf::Event ev;
+
     sf::Font font1, font2, font3;
 
+    //menu part
     sf::Text welcome;
     sf::Text name;
     sf::Text demand;
@@ -31,6 +33,8 @@ private:
 
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
+
+	//hight;ight
 	sf::RectangleShape rec;
 
 	//music

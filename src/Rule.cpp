@@ -24,8 +24,6 @@ void Rule::initText()
     this -> intruction3.setFont(this -> contentFont);
     this -> intruction3.setString("Shoot: Press A for Lazer Mode, press S for Bullet Mode.");
 
-
-
     this -> title_.setFont(this -> titleFont);
     this -> title_.setString("Score: ");
 
@@ -78,44 +76,18 @@ bool Rule::isReturnFun()
 void Rule::run(sf::RenderWindow *window)
 {
     this -> background -> setFirstPos(window);
+    this -> setCharacter(window);
     while(this -> isRunning(window)){
         this -> update(window);
         this -> render(window);
         if(isReturn) break;
     }
 }
-void Rule::update(sf::RenderWindow *window)
+void Rule::setCharacter(sf::RenderWindow *window)
 {
-    this -> background -> update(window);
-    this -> pollEve(window);
-    this -> updateMousePos(window);
     this -> setPos(window);
     this -> setScale();
     this -> setColor();
-}
-void Rule::pollEve(sf::RenderWindow * window)
-{
-    while(window->pollEvent(this -> ev)){
-        if(ev.type == sf::Event::Closed){
-                window -> close();
-                closed = true;
-        }
-        if(ev.sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
-            window -> close();
-            closed = true;
-        }
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                if(this -> returnButt.getGlobalBounds().contains(this -> mousePosView)){
-                    isReturn = true;
-                }
-        }
-
-    }
-}
-void Rule::updateMousePos(sf::RenderWindow * window)
-{
-    this->mousePosWindow = sf::Mouse::getPosition(*window);
-	this->mousePosView = window->mapPixelToCoords(this->mousePosWindow);
 }
 void Rule::setPos(sf::RenderWindow *window)
 {
@@ -148,6 +120,40 @@ void Rule::setColor()
     this -> title.setColor(sf::Color::Red);
     this -> title_.setColor(sf::Color::Red);
 }
+
+
+void Rule::update(sf::RenderWindow *window)
+{
+    this -> background -> update(window);
+    this -> pollEve(window);
+    this -> updateMousePos(window);
+
+}
+void Rule::pollEve(sf::RenderWindow * window)
+{
+    while(window->pollEvent(this -> ev)){
+        if(ev.type == sf::Event::Closed){
+                window -> close();
+                closed = true;
+        }
+        if(ev.sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+            window -> close();
+            closed = true;
+        }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                if(this -> returnButt.getGlobalBounds().contains(this -> mousePosView)){
+                    isReturn = true;
+                }
+        }
+
+    }
+}
+void Rule::updateMousePos(sf::RenderWindow * window)
+{
+    this->mousePosWindow = sf::Mouse::getPosition(*window);
+	this->mousePosView = window->mapPixelToCoords(this->mousePosWindow);
+}
+
 void Rule::render(sf::RenderWindow *window)
 {
     window -> clear(sf::Color::Black);

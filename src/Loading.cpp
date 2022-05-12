@@ -20,6 +20,17 @@ float Loading::getNumber()
 {
     return num;
 }
+void Loading::update(sf::Vector2f windowsize)
+{
+    if(spawnTimer > spawnTimerMax)
+    {
+        this -> updateTexts(windowsize);
+        num += 5.f;
+        this -> spawnTimer = 0.f;
+    }
+    else spawnTimer += 1.f;
+
+}
 void Loading::updateTexts(sf::Vector2f windowsize)
 {
     this -> setFont();
@@ -55,17 +66,7 @@ void Loading::setPos(sf::Vector2f windowsize)
     this -> loading.setPosition(windowsize.x / 2 - 100.f, windowsize.y / 2 - 100.f);
     this -> number.setPosition(this -> loading.getPosition().x + 80.f, this -> loading.getPosition().y + 80.f);
 }
-void Loading::update(sf::Vector2f windowsize)
-{
-    if(spawnTimer > spawnTimerMax)
-    {
-        this -> updateTexts(windowsize);
-        num += 5.f;
-        this -> spawnTimer = 0.f;
-    }
-    else spawnTimer += 1.f;
 
-}
 void Loading::render(sf::RenderTarget *target){
     target -> draw(this -> loading);
     target -> draw(this -> number);

@@ -17,8 +17,10 @@ private:
 public:
     Planet(sf::Texture *texture, float posX, float posY, float movementSpeed_);
     virtual ~Planet();
+
     sf::Vector2f getPos();
     sf::FloatRect getBounds();
+
     void update();
     void render(sf::RenderTarget *target);
 };

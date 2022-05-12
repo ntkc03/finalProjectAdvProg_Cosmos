@@ -47,12 +47,16 @@ public:
     bool isReturnFun();
 
     void run(sf::RenderWindow *window);
-    void update(sf::RenderWindow *window);
-    void pollEve(sf::RenderWindow * window);
-    void updateMousePos(sf::RenderWindow * window);
+
+    void setCharacter(sf::RenderWindow *window);
     void setPos(sf::RenderWindow *window);
     void setScale();
     void setColor();
+
+    void update(sf::RenderWindow *window);
+    void pollEve(sf::RenderWindow * window);
+    void updateMousePos(sf::RenderWindow * window);
+
     void render(sf::RenderWindow *window);
 
 };

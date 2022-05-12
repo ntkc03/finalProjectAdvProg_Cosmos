@@ -44,7 +44,7 @@ void Hello::createHightLight(sf::Vector2f *Size, sf::Vector2f *pos)
 }
 
 
-
+//choose player part
 void Hello::renderChoosePlayer(sf::RenderWindow *window)
 {
     window-> clear(sf::Color::Black);

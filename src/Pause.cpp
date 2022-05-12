@@ -17,6 +17,8 @@ void Pause::initSprite()
     this -> stop.setTexture(this -> stopText);
     this -> stop.setScale(0.35f, 0.35f);
 }
+
+
 Pause::Pause()
 {
     this -> clickBuff.loadFromFile("audio/mouse.wav");
@@ -28,6 +30,8 @@ Pause::~Pause()
 {
     this -> click.stop();
 }
+
+
 bool Pause::isPlay()
 {
     return this -> isStop;
@@ -36,12 +40,16 @@ bool Pause::isContinue()
 {
     return this -> isPause;
 }
+
+
 void Pause::setPos(sf::RenderWindow *window, float posX, float posY)
 {
     this -> pause.setPosition(posX, posY);
     this -> continueSprite.setPosition(window -> getSize().x / 2 - 100.f, window -> getSize().y / 2 - 50.f);
     this -> stop.setPosition(this -> pause.getGlobalBounds().left + this -> pause.getGlobalBounds().width, this -> pause.getPosition().y);
 }
+
+
 void Pause::pollEv(sf::RenderWindow *window)
 {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
@@ -66,6 +74,8 @@ void Pause::updateMousePos(sf::Vector2f mousePosView_)
 {
     this -> mousePosView = mousePosView_;
 }
+
+
 void Pause::render(sf::RenderWindow *window)
 {
     if(isPause)
