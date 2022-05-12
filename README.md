@@ -10,6 +10,6 @@ Bạn là thành viên của một phi hành đoàn, điều khiển tàu chiế
 - Tựa game mình/em làm không có quá nhiều thuật toán phức tạp, chủ yếu dựa vào sự va chạm giữa các vật thể để tính điểm hoặc cộng trừ mạng của người chơi. 
 # Đánh giá của bản thân:
 
- - Project này là tự mình code, có tham khảo một chút phần logic game ở, còn lại về menu, âm thanh, hình ảnh đồ họa đều do em tự mình nghĩ ý tưởng và code dựa theo những gì em học được ở https://www.sfml-dev.org/tutorials/2.5/. 
+ - Project này là tự mình code, có tham khảo một chút phần thiết kế va chạm game ở https://github.com/Headturna/SFML_C-_Simple_Games.git, còn lại tất cả đều do em tự mình nghĩ ý tưởng và code dựa theo những gì em học được ở https://www.sfml-dev.org/tutorials/2.5/. 
  - Phần hình ảnh em chủ yếu lấy trên https://www.pinterest.com/ rồi chỉnh sửa để phù hợp với game.
- - Phần âm thanh em lấy trên Youtube và có chỉnh sửa để phù hợp hơn với game.
+ - Phần âm thanh em lấy trên Youtube.
