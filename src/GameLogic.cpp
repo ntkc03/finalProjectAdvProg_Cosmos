@@ -233,7 +233,17 @@ void Game::updateBulletsCombats(){
                        else num++;
                 }
 
-
+                num = 0;
+                while(num < planets.size()){
+                    if(this -> shootedArea.getGlobalBounds().intersects(this -> planets[num] -> getBounds()))
+                       {
+                           delete this -> planets[num];
+                           this -> planets.erase(this -> planets.begin() + num);
+                           this -> curr_health -= 1.f;
+                            this -> loseHeal.play();
+                       }
+                       else num++;
+                }
                 delete this -> bullets[j];
                 this -> bullets.erase(this -> bullets.begin() + j);
 

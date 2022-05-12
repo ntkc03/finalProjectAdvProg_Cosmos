@@ -88,6 +88,7 @@ void Game::runMainGame(sf::RenderWindow *window)
 
 void Game::runGameOver(sf::RenderWindow *window)
 {
+    this -> clockSound.stop();
     this -> bgkGO.play();
     while(this -> isRunning(window) && (curr_health <= 0.f || pause -> isPlay() == true))
     {
