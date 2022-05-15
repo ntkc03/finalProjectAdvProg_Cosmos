@@ -18,3 +18,4 @@ Bạn là thành viên của một phi hành đoàn, điều khiển tàu chiế
  - Phần code là do tự mình em làm.
  - Phần hình ảnh em chủ yếu lấy trên https://www.pinterest.com/ rồi chỉnh sửa để phù hợp với game.
  - Phần âm thanh em lấy trên Youtube.
+- Tự đánh giá: 9/10
