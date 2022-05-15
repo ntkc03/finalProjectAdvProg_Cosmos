@@ -8,6 +8,7 @@ Bạn là thành viên của một phi hành đoàn, điều khiển tàu chiế
 # Về game:
 
 - Tựa game mình/em làm không có quá nhiều thuật toán phức tạp, chủ yếu dựa vào sự va chạm giữa các vật thể để tính điểm hoặc cộng trừ mạng của người chơi.
+- Đối với các đối tượng: Đã chia tách các đối tượng, xử lý va chạm,...
 - Game đã có menu, chọn người chơi với hai loại đạn, 1 viên đạn phím A có thể tiêu diệt 1 chướng ngại vật, 1 viên đạn phím S có thể tiêu diệt nhiều chướng ngại vật trong phạm vi bán kính cho trước sau khi tiếp xúc với một sự vật.
 - Game có thể chơi lại nhiều lần.
 - Game có thể tạm dừng hoặc tiếp tục hoặc dừng hẳn trong lúc đang chơi.
