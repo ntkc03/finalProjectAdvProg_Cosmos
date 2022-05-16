@@ -82,6 +82,6 @@ void Pause::render(sf::RenderWindow *window)
     {
         window -> draw(this -> continueSprite);
     }
-    window -> draw(this -> pause);
+    else window -> draw(this -> pause);
     window -> draw(this -> stop);
 }

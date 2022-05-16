@@ -14,6 +14,7 @@ void GameOver::initFontsandText()
     this -> playAgain.setFont(this -> font);
     this -> choice1.setFont(this -> font);
     this -> choice2.setFont(this -> font);
+    this -> choice3.setFont(this -> font);
 
 }
 GameOver::GameOver()
@@ -44,6 +45,9 @@ void GameOver::pollEv()
         else if(this -> choice2.getGlobalBounds().contains(this -> mousePosView)){
             choices = 2;
         }
+        else if(this -> choice3.getGlobalBounds().contains(this -> mousePosView)){
+            choices = 3;
+        }
     }
 
 }
@@ -73,6 +77,7 @@ void GameOver::setStringTexts()
     this -> playAgain.setString("Play Again?");
     this -> choice1.setString("Yes");
     this -> choice2.setString("No");
+    this -> choice3.setString("Menu");
 }
 void GameOver::setScaleTexts()
 {
@@ -82,7 +87,7 @@ void GameOver::setScaleTexts()
     this -> playAgain.setScale(1.f, 1.f);
     this -> choice1.setScale(1.f, 1.f);
     this -> choice2.setScale(1.f, 1.f);
-
+    this -> choice3.setScale(1.f, 1.f);
 }
 void GameOver::setPos(sf::Vector2f windowSize)
 {
@@ -93,7 +98,7 @@ void GameOver::setPos(sf::Vector2f windowSize)
     this -> playAgain.setPosition(this -> yourScore.getGlobalBounds().left + 70.f, this -> yourScore.getGlobalBounds().top + this -> yourScore.getGlobalBounds().height + 50.f);
     this -> choice1.setPosition(this -> playAgain.getGlobalBounds(). left + 20.f, this -> playAgain.getGlobalBounds().top + this -> playAgain.getGlobalBounds().height + 10.f);
     this -> choice2.setPosition(this -> choice1.getGlobalBounds(). left + this -> choice1.getGlobalBounds().width + 20.f,this -> playAgain.getGlobalBounds().top + this -> playAgain.getGlobalBounds().height + 10.f);
-
+    this -> choice3.setPosition(windowSize.x / 2 - 50.f, this -> choice2.getGlobalBounds().top + this -> choice2.getGlobalBounds().height + 10.f);
 }
 void GameOver::SetColor()
 {
@@ -114,4 +119,5 @@ void GameOver::render(sf::RenderTarget *target)
     target ->draw(this -> playAgain);
     target ->draw(this -> choice1);
     target ->draw(this -> choice2);
+    target ->draw(this -> choice3);
 }

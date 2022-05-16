@@ -17,6 +17,7 @@ private:
     sf::Text playAgain;
     sf::Text choice1;
     sf::Text choice2;
+    sf::Text choice3;
     sf::Font font;
     sf::Font gameOverFont;
     int choices;

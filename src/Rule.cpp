@@ -95,12 +95,13 @@ void Rule::setPos(sf::RenderWindow *window)
     this -> intruction1.setPosition(10.f, 100.f);
     this -> intruction2.setPosition(10.f, this -> intruction1.getGlobalBounds().top + this -> intruction1.getGlobalBounds().height + 10.f);
     this -> button.setPosition(this -> intruction2.getGlobalBounds().left + this -> intruction2.getGlobalBounds().width + 30.f, this -> intruction2.getPosition().y);
-    this -> intruction3.setPosition(10.f, this -> button.getGlobalBounds().top + this -> button.getGlobalBounds().height + 10.f);
+    this -> intruction3.setPosition(10.f, this -> button.getGlobalBounds().top + this -> button.getGlobalBounds().height);
     this -> title_.setPosition(10.f,
-                              this -> button.getGlobalBounds().top + this -> button.getGlobalBounds().height + 50.f);
-    this -> scoreCal1.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f, this -> title_.getPosition().y + 10.f);
-    this -> scoreCal2.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 10.f,
-                                  this -> scoreCal1.getGlobalBounds().top + this -> scoreCal2.getGlobalBounds().height + 10.f );
+                               this -> intruction3.getGlobalBounds().top + this -> intruction3.getGlobalBounds().height + 10.f);
+    this -> scoreCal1.setPosition(this -> title_.getGlobalBounds().left + this -> title_.getGlobalBounds().width + 100.f,
+                                  this -> title_.getPosition().y - 5.f);
+    this -> scoreCal2.setPosition(this -> scoreCal1.getPosition().x,
+                                  this -> scoreCal1.getGlobalBounds().top + this -> scoreCal1.getGlobalBounds().height + 5.f);
     this -> returnButt.setPosition(0.f, 0.f);
 }
 void Rule::setScale()

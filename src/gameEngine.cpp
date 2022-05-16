@@ -22,37 +22,42 @@ gameEngine::~gameEngine()
 }
 void gameEngine::running()
 {
-    Hello hello;
-    hello.running(this -> window);
-    if(hello.isClosed()) {
-        return;
-    }
-    else{
-        if(hello.choice() == 1){
-            hello.setChoiceAfterOnShift(0);
-            bool isContinue = true;
-            while(isContinue){
-                Game game(hello.getplayerChoice());
-                game.running(this -> window);
-                if(game.Closed()){
-                    return;
-                }
-                else{
-                    if(game.choice() == 1)
-                    {
-                        continue;
-                    }
-                    else if(game.choice() == 2){
-                        isContinue = false;
+    while(true){
+        Hello hello;
+        hello.running(this -> window);
+        if(hello.isClosed()) {
+            return;
+        }
+        else{
+            if(hello.choice() == 1){
+                hello.setChoiceAfterOnShift(0);
+                bool isContinue = true;
+                while(isContinue){
+                    Game game(hello.getplayerChoice());
+                    game.running(this -> window);
+                    if(game.Closed()){
                         return;
+                    }
+                    else{
+                        if(game.choice() == 1)
+                        {
+                            continue;
+                        }
+                        else if(game.choice() == 2){
+                            isContinue = false;
+                            return;
+                        }
+                        else if(game.choice() == 3)
+                        {
+                            isContinue = false;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        else {
-            return;
+            else {
+                return;
+            }
         }
     }
-
-
 }
