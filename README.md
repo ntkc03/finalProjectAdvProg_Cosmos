@@ -26,7 +26,8 @@
 - Con trỏ
 - Lớp (class)
 - Đồ họa SFML
-- 
+- Chuỗi
+- Stringstream
 # Kết luận:
 
  - Trước khi làm, em có học về SFML tại https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up và https://www.sfml-dev.org/tutorials/2.5/. 
