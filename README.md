@@ -1,18 +1,32 @@
 # Bài tập cuối học phần Lập trình nâng cao (INT2215 1)
-Xin chào mọi người, mình/em là Nguyễn Thị Kiều Chinh. Đấy là một bài tập phục vụ cho việc học tập cũng là bài tập cuối học phần Lập trình nâng cao của mình.
-Tựa game nho nhỏ của mình/em có tên là Comos, sử dụng ngôn ngữ C++ và thư viện đồ họa SFML.
+- Tên sinh viên: Nguyễn Thị Kiều Chinh
+- MSV: 21020752
+- Lớp: K66-CC
 # Hướng dẫn cài đặt
 
 # Mô tả chung về trò chơi:
-
-- Tựa game mình/em làm không có quá nhiều thuật toán phức tạp, chủ yếu dựa vào sự va chạm giữa các vật thể để tính điểm hoặc cộng trừ mạng của người chơi.
-- Đối với các đối tượng: Đã chia tách các đối tượng, xử lý va chạm,...
-- Game đã có menu, chọn người chơi với hai loại đạn, 1 viên đạn phím A có thể tiêu diệt 1 chướng ngại vật, 1 viên đạn phím S có thể tiêu diệt nhiều chướng ngại vật trong phạm vi bán kính cho trước sau khi tiếp xúc với một sự vật.
-- Game có thể chơi lại nhiều lần.
-- Game có thể tạm dừng hoặc tiếp tục hoặc dừng hẳn trong lúc đang chơi.
+-
 # Các ý tưởng chính:
+- 
 # Các chức năng đã cài đặt:
+- Menu của game: chơi game, đọc luật chơi, thoát khỏi game.
+- Chọn người chơi
+- Tạm dừng/tiếp tục hoặc dừng hẳn trong khi chơi
+- Nhận input từ chuột để chọn các lựa chọn
+- Nhận input từ bàn phím để di chuyển người chơi hoặc tiêu diệt các mục tiêu
+- Tính điểm và cho biết điểm sau mỗi lượt chơi
+- Có thể quay lại menu
+- Chơi lại nhiều lần/thoát game
+- Cho biết lượt mạng còn lại
+- Có âm thanh
+- 
 # Các kĩ thuật lập trình đã sửu dụng:
+- Mảng động vector
+- STL - Map
+- Con trỏ
+- Lớp (class)
+- Đồ họa SFML
+- 
 # Kết luận:
 
  - Trước khi làm, em có học về SFML tại https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up và https://www.sfml-dev.org/tutorials/2.5/. 
