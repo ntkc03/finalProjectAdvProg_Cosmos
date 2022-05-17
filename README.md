@@ -20,7 +20,7 @@
 - Cho biết lượt mạng còn lại
 - Có âm thanh
 - 
-# Các kĩ thuật lập trình đã sửu dụng:
+# Các kĩ thuật lập trình đã sử dụng:
 - Mảng động vector
 - STL - Map
 - Con trỏ
