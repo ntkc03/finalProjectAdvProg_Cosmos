@@ -2,7 +2,7 @@
 - Tên sinh viên: Nguyễn Thị Kiều Chinh
 - MSV: 21020752
 - Lớp: K66-CC
-# Hướng dẫn cài đặt
+# Hướng dẫn cài đặt trên Window:
 
 # Mô tả chung về trò chơi:
 -
