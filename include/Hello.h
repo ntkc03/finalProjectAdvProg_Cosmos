@@ -10,6 +10,8 @@
 #include "background.h"
 #include "Player.h"
 #include "Rule.h"
+#include "Score.h"
+#include "NameInput.h"
 class Hello
 {
 private:
@@ -25,6 +27,7 @@ private:
     sf::Text choice1;
     sf::Text choice2;
     sf::Text choice3;
+    sf::Text choice4;
     Background *background;
 
     sf::Texture returnTex;
@@ -34,7 +37,7 @@ private:
     sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 
-	//hight;ight
+	//highlight
 	sf::RectangleShape rec;
 
 	//music

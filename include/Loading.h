@@ -18,18 +18,19 @@ private:
     float spawnTimer;
     float spawnTimerMax;
     void initVariable();
+    void initFont();
 public:
     Loading();
     virtual ~Loading();
     float getNumber();
 
-    void update(sf::Vector2f windowsize);
-    void updateTexts(sf::Vector2f windowsize);
+    void update(const sf::Vector2f &windowSize);
+    void updateTexts(const sf::Vector2f &windowSize);
     void setFont();
     void setString();
     void setScale();
     void setColor();
-    void setPos(sf::Vector2f windowsize);
+    void setPos(const sf::Vector2f &windowSize);
 
     void render(sf::RenderTarget *target);
 };

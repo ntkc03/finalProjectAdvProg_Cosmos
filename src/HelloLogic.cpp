@@ -38,6 +38,11 @@ void Hello::PollEv(sf::RenderWindow *window)
                     this -> click.play();
                     choices = 3;
                 }
+                else if(this -> choice4.getGlobalBounds().contains(this -> mousePosView))
+                {
+                    this -> click.play();
+                    choices = 4;
+                }
         }
     }
 }

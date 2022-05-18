@@ -11,6 +11,7 @@ void Hello::render(sf::RenderWindow *window)
     window -> draw(this -> choice1);
     window -> draw(this -> choice2);
     window -> draw(this -> choice3);
+    window -> draw(this -> choice4);
     window -> display();
 }
 void Hello::renderHightLight1(sf::RenderWindow *window)
@@ -31,6 +32,13 @@ void Hello::renderHightLight1(sf::RenderWindow *window)
     {
         sf::Vector2f Size = sf::Vector2(this -> choice3.getGlobalBounds().width + 20.f, this -> choice3.getGlobalBounds().height + 15.f);
         sf::Vector2f pos = sf::Vector2(this -> choice3.getPosition().x, this -> choice3.getPosition().y + 5.f);
+        this -> createHightLight(&Size, &pos);
+        window -> draw(this -> rec);
+    }
+    else if(this -> choice4.getGlobalBounds().contains(this -> mousePosView))
+    {
+        sf::Vector2f Size = sf::Vector2(this -> choice4.getGlobalBounds().width + 20.f, this -> choice4.getGlobalBounds().height + 15.f);
+        sf::Vector2f pos = sf::Vector2(this -> choice4.getPosition().x, this -> choice4.getPosition().y + 5.f);
         this -> createHightLight(&Size, &pos);
         window -> draw(this -> rec);
     }

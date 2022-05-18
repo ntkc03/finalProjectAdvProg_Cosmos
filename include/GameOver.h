@@ -34,14 +34,15 @@ public:
 
     int choice();
 
-    void update(sf::Vector2f windowSize);
+    void update(const sf::Vector2f &windowSize);
     void pollEv();
-    void updateTexts(sf::Vector2f windowSize);
-    void updateMousePos(sf::Vector2f mousePosView_);
-    void updatePoint(float point_);
+    void updateMousePos(sf::Vector2f *mousePosView_);
+    void updatePoint(const float &point_);
+    void updateTexts(const sf::Vector2f &windowSize);
+    void setFont();
     void setStringTexts();
     void setScaleTexts();
-    void setPos(sf::Vector2f windowSize);
+    void setPos(const sf::Vector2f &windowSize);
     void SetColor();
 
     void render(sf::RenderTarget *target);

@@ -2,9 +2,8 @@
 #define BULLET_H
 
 #include <iostream>
-#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+
 
 class Bullet{
 private:
@@ -12,7 +11,7 @@ private:
     float movementSpeed;
 
 public:
-    Bullet(sf::Texture *texture, float posX, float posY, float scaleX, float scaleY,int movementSpeed_);
+    Bullet(sf::Texture *texture, const sf::Vector2f &pos, const sf::Vector2f &scale, const int &movementSpeed_);
     virtual ~Bullet();
 
     const sf::FloatRect getBounds();

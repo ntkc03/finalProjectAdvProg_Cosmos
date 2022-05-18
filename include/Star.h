@@ -1,10 +1,7 @@
 #ifndef STAR_H
 #define STAR_H
 
-#include <iostream>
-#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include <random>
 class Star
 {
@@ -15,8 +12,8 @@ public:
     Star(float radius);
     virtual ~Star();
 
-    void setFirstPos(float posX, float posY);
-    void circleMove(float x, float y);
+    void setFirstPos(const sf::Vector2f &pos);
+    void circleMove(const sf::Vector2f &offset);
     sf::Color randomColor();
     void setRandomColor();
     void render(sf::RenderWindow *window);

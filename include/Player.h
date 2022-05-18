@@ -11,7 +11,7 @@
 class Player
 {
 private:
-    sf::Sprite sprite1, sprite2, sprite3, sprite;
+    sf::Sprite ship1Sprite, ship2Sprite, ship3Sprite, playerSprite;
     sf::Texture ship1, ship2, ship3;
     sf::Font font;
     sf::Text speedText1, speedText2, speedText3;
@@ -20,28 +20,29 @@ private:
     void initVariable();
     void initTexture();
     void initSprite();
-    void initFontsandTexts();
+    void initFont();
 public:
     Player();
     virtual ~Player();
 
+
+    //used in Game (using only one player)
     sf::Vector2f getPos();
     sf::FloatRect getBounds();
 
-    //used in Game (using only one player)
     void setPos(const sf::Vector2f &pos);
+    void setPlayer();
     void setChoice();
-    void move(const float &X, const float &Y);
-    void update();
+    void move(const sf::Vector2f &offset);
     void render(sf::RenderTarget *target);
 
     //used in Hello (print 3 spaceship types for player to choose)
     void updateChoosePlayer(sf::RenderWindow *window);
     void setPosChoosePlayer(sf::RenderWindow *window);
-    void getChoice(int choice);
+    void getChoice(const int &choice_);
     void setString();
-    sf::FloatRect getBounds(int choice);
-    sf::Vector2f getPos(int choice);
+    sf::FloatRect getBounds(const int &choice);
+    sf::Vector2f getPos(const int &choice);
     void renderChoosePlayer(sf::RenderTarget * target);
 
 

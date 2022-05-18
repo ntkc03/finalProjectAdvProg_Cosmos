@@ -13,25 +13,7 @@ void Rule::initFont()
 void Rule::initText()
 {
     this -> title.setFont(this -> titleFont);
-    this -> title.setString("How to play");
 
-    this -> intruction1.setFont(this -> contentFont);
-    this -> intruction1.setString("Plot: Star War is coming. You're the captain of a warship.\nYou have to avoid or destroy rocks and enermy's space ships.\nIf you knock down any rocks or alien's space ships,you can \nearn points, but if you crash into them, you may lose health.\nAnd you can fly into a planet to get aids and health, but\nif you shoot at any planets, you may violate universe's law\nand you have to lose your health.");
-
-    this -> intruction2.setFont(this -> contentFont);
-    this -> intruction2.setString("Move: ");
-
-    this -> intruction3.setFont(this -> contentFont);
-    this -> intruction3.setString("Shoot: Press A for Lazer Mode, press S for Bullet Mode.");
-
-    this -> title_.setFont(this -> titleFont);
-    this -> title_.setString("Score: ");
-
-    this -> scoreCal1.setFont(this -> contentFont);
-    this -> scoreCal1.setString("Alien: + 200 pts.");
-
-    this -> scoreCal2.setFont(this -> contentFont);
-    this -> scoreCal2.setString("Rock: +100 pts.");
 }
 void Rule::initTexture()
 {
@@ -85,9 +67,31 @@ void Rule::run(sf::RenderWindow *window)
 }
 void Rule::setCharacter(sf::RenderWindow *window)
 {
+    this -> setFont();
+    this -> setString();
     this -> setPos(window);
     this -> setScale();
     this -> setColor();
+}
+void Rule::setFont()
+{
+    this -> intruction1.setFont(this -> contentFont);
+    this -> intruction2.setFont(this -> contentFont);
+    this -> intruction3.setFont(this -> contentFont);
+    this -> title_.setFont(this -> titleFont);
+    this -> scoreCal1.setFont(this -> contentFont);
+    this -> scoreCal2.setFont(this -> contentFont);
+
+}
+void Rule::setString()
+{
+    this -> title.setString("How to play");
+    this -> intruction1.setString("Plot: Star War is coming. You're the captain of a warship.\nYou have to avoid or destroy rocks and enermy's space ships.\nIf you knock down any rocks or alien's space ships,you can \nearn points, but if you crash into them, you may lose health.\nAnd you can fly into a planet to get aids and health, but\nif you shoot at any planets, you may violate universe's law\nand you have to lose your health.");
+    this -> intruction2.setString("Move: ");
+    this -> intruction3.setString("Shoot: Press A for Lazer Mode, press S for Bullet Mode.");
+    this -> title_.setString("Score: ");
+    this -> scoreCal1.setString("Alien: + 200 pts.");
+    this -> scoreCal2.setString("Rock: +100 pts.");
 }
 void Rule::setPos(sf::RenderWindow *window)
 {

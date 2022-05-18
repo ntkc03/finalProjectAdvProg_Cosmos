@@ -54,6 +54,8 @@ void Game::running(sf::RenderWindow *window){
     this -> runMainGame(window);
     //print the score
     this -> runGameOver(window);
+
+    enterNewScore(this -> point);
 }
 void Game::runLoad(sf::RenderWindow *window)
 {

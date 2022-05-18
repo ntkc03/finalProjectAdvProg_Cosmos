@@ -1,8 +1,8 @@
 #include "Planet.h"
 
-Planet::Planet(sf::Texture *texture, float posX, float posY, float movementSpeed_){
+Planet::Planet(sf::Texture *texture, const sf::Vector2f &pos, const float &movementSpeed_){
     this -> sprite.setTexture(*texture);
-    this -> sprite.setPosition(posX, posY);
+    this -> sprite.setPosition(pos);
     this -> sprite.setScale(0.6f, 0.6f);
     this -> movementSpeed = movementSpeed_;
 }

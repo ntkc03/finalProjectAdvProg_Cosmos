@@ -12,19 +12,23 @@ void Pause::initSprite()
 {
     this -> pause.setTexture(this -> pauseText);
     this -> pause.setScale(0.5f, 0.5f);
+
     this -> continueSprite.setTexture(this -> conText);
     this -> continueSprite.setScale(0.5f, 0.5f);
+
     this -> stop.setTexture(this -> stopText);
     this -> stop.setScale(0.35f, 0.35f);
 }
-
-
-Pause::Pause()
+void Pause::initSound()
 {
     this -> clickBuff.loadFromFile("audio/mouse.wav");
     this -> click.setBuffer(this -> clickBuff);
+}
+Pause::Pause()
+{
     this -> initTexture();
     this -> initSprite();
+    this -> initSound();
 }
 Pause::~Pause()
 {
@@ -42,9 +46,9 @@ bool Pause::isContinue()
 }
 
 
-void Pause::setPos(sf::RenderWindow *window, float posX, float posY)
+void Pause::setPos(sf::RenderWindow *window, const sf::Vector2f &pos)
 {
-    this -> pause.setPosition(posX, posY);
+    this -> pause.setPosition(pos);
     this -> continueSprite.setPosition(window -> getSize().x / 2 - 100.f, window -> getSize().y / 2 - 50.f);
     this -> stop.setPosition(this -> pause.getGlobalBounds().left + this -> pause.getGlobalBounds().width, this -> pause.getPosition().y);
 }
@@ -70,9 +74,9 @@ void Pause::pollEv(sf::RenderWindow *window)
         }
     }
 }
-void Pause::updateMousePos(sf::Vector2f mousePosView_)
+void Pause::updateMousePos(sf::Vector2f *mousePosView_)
 {
-    this -> mousePosView = mousePosView_;
+    this -> mousePosView = *mousePosView_;
 }
 
 

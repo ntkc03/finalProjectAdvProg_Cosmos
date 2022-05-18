@@ -15,11 +15,11 @@ void Player::initTexture()
 }
 void Player::initSprite()
 {
-    this -> sprite1.setTexture(this -> ship1);
-    this -> sprite2.setTexture(this -> ship2);
-    this -> sprite3.setTexture(this -> ship3);
+    this -> ship1Sprite.setTexture(this -> ship1);
+    this -> ship2Sprite.setTexture(this -> ship2);
+    this -> ship3Sprite.setTexture(this -> ship3);
 }
-void Player::initFontsandTexts()
+void Player::initFont()
 {
     this -> font.loadFromFile("fonts/PixeBoy.ttf");
     this -> speedText1.setFont(this -> font);
@@ -30,7 +30,7 @@ Player::Player(){
     this -> initVariable();
     this -> initTexture();
     this -> initSprite();
-    this -> initFontsandTexts();
+    this -> initFont();
 }
 
 Player::~Player(){
@@ -40,43 +40,44 @@ Player::~Player(){
 
 // Player in main Game
 sf::Vector2f Player::getPos(){
-    return this -> sprite.getPosition();
+    return this -> playerSprite.getPosition();
 }
 sf::FloatRect Player::getBounds(){
-    return this -> sprite.getGlobalBounds();
+    return this -> playerSprite.getGlobalBounds();
 }
 void Player::setPos(const sf::Vector2f &pos){
-    this -> sprite.setPosition(pos);
+    this -> playerSprite.setPosition(pos);
+}
+void Player::setPlayer(){
+    if(this -> choice != 0)
+    {
+        setChoice();
+        this -> playerSprite.setScale(0.8f, 0.8f);
+    }
 }
 void Player::setChoice()
 {
     if(this -> choice == 1)
     {
-        this -> sprite.setTexture(this -> ship1);
+        this -> playerSprite.setTexture(this -> ship1);
         movementSpeed = speedShip1;
     }
     else if(this -> choice == 2)
     {
-        sprite.setTexture(this -> ship2);
+        playerSprite.setTexture(this -> ship2);
         movementSpeed = speedShip2;
     }
     else if(this -> choice == 3){
-        sprite.setTexture(this -> ship3);
+        playerSprite.setTexture(this -> ship3);
         movementSpeed = speedShip3;
     }
 }
-void Player::move(const float &X, const float &Y){
-    sprite.move(this -> movementSpeed * X, this -> movementSpeed * Y);
+void Player::move(const sf::Vector2f &offset){
+    playerSprite.move(this -> movementSpeed * offset);
 }
-void Player::update(){
-    if(this -> choice != 0)
-    {
-        setChoice();
-        this -> sprite.setScale(0.8f, 0.8f);
-    }
-}
+
 void Player::render(sf::RenderTarget *target){
-    target->draw(this -> sprite);
+    target->draw(this -> playerSprite);
 }
 
 //Players in Hello
@@ -85,7 +86,7 @@ void Player::updateChoosePlayer(sf::RenderWindow *window)
     this -> setString();
     this -> setPosChoosePlayer(window);
 }
-void Player::getChoice(int choice_)
+void Player::getChoice(const int &choice_)
 {
     this -> choice = choice_;
 }
@@ -103,34 +104,35 @@ void Player::setString()
     ss3 << speedShip3 * 10 << "m/s";
     this -> speedText3.setString(ss3.str());
 }
-sf::FloatRect Player::getBounds(int choice)
+sf::FloatRect Player::getBounds(const int &choice)
 {
-    if(choice == 1) return this -> sprite1.getGlobalBounds();
-    else if(choice == 2) return this -> sprite2.getGlobalBounds();
-    else if(choice == 3) return this -> sprite3.getGlobalBounds();
+    if(choice == 1) return this -> ship1Sprite.getGlobalBounds();
+    else if(choice == 2) return this -> ship2Sprite.getGlobalBounds();
+    else if(choice == 3) return this -> ship3Sprite.getGlobalBounds();
 }
-sf::Vector2f Player::getPos(int choice)
+sf::Vector2f Player::getPos(const int &choice)
 {
-    if(choice == 1) return this -> sprite1.getPosition();
-    else if(choice == 2) return this -> sprite2.getPosition();
-    else if(choice == 3) return this -> sprite3.getPosition();
+    if(choice == 1) return this -> ship1Sprite.getPosition();
+    else if(choice == 2) return this -> ship2Sprite.getPosition();
+    else if(choice == 3) return this -> ship3Sprite.getPosition();
 }
 void Player::setPosChoosePlayer(sf::RenderWindow *window)
 {
 
-    this -> sprite1.setPosition(100.f, window->getSize().y / 2.0 - 100.f);
-    this -> sprite2.setPosition(this -> sprite1.getPosition().x + 300.f, sprite1.getPosition().y);
-    this -> sprite3.setPosition(this -> sprite2.getPosition().x + 300.f, sprite2.getPosition().y);
+    this -> ship1Sprite.setPosition(100.f, window->getSize().y / 2.0 - 100.f);
+    this -> ship2Sprite.setPosition(this -> ship1Sprite.getPosition().x + 300.f, ship1Sprite.getPosition().y);
+    this -> ship3Sprite.setPosition(this -> ship2Sprite.getPosition().x + 300.f, ship2Sprite.getPosition().y);
 
-    this -> speedText1.setPosition(this -> sprite1.getPosition().x + 30.f, this -> sprite1.getGlobalBounds().top + this -> sprite1.getGlobalBounds().height + 10.f);
-    this -> speedText2.setPosition(this -> sprite2.getPosition().x + 40.f, this -> speedText1.getPosition().y);
-    this -> speedText3.setPosition(this -> sprite3.getPosition().x + 30.f, this -> speedText1.getPosition().y);
+    this -> speedText1.setPosition(this -> ship1Sprite.getPosition().x + 30.f,
+                                   this -> ship1Sprite.getGlobalBounds().top + this -> ship1Sprite.getGlobalBounds().height + 10.f);
+    this -> speedText2.setPosition(this -> ship2Sprite.getPosition().x + 40.f, this -> speedText1.getPosition().y);
+    this -> speedText3.setPosition(this -> ship3Sprite.getPosition().x + 30.f, this -> speedText1.getPosition().y);
 }
 void Player::renderChoosePlayer(sf::RenderTarget * target)
 {
-    target -> draw(this -> sprite1);
-    target -> draw(this -> sprite2);
-    target -> draw(this -> sprite3);
+    target -> draw(this -> ship1Sprite);
+    target -> draw(this -> ship2Sprite);
+    target -> draw(this -> ship3Sprite);
 
     target -> draw(this -> speedText1);
     target -> draw(this -> speedText2);

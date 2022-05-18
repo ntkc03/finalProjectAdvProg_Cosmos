@@ -8,14 +8,6 @@ void GameOver::initFontsandText()
 {
     this -> font.loadFromFile("fonts/ConnectionIi.otf");
     this -> gameOverFont.loadFromFile("fonts/04B.TTF");
-    this -> yourScore.setFont(this -> font);
-    this -> Score.setFont(this -> font);
-    this -> gameOver.setFont(this -> gameOverFont);
-    this -> playAgain.setFont(this -> font);
-    this -> choice1.setFont(this -> font);
-    this -> choice2.setFont(this -> font);
-    this -> choice3.setFont(this -> font);
-
 }
 GameOver::GameOver()
 {
@@ -30,7 +22,7 @@ int GameOver::choice()
 {
     return choices;
 }
-void GameOver::update(sf::Vector2f windowSize)
+void GameOver::update(const sf::Vector2f &windowSize)
 {
     this -> pollEv();
     this -> updateTexts(windowSize);
@@ -51,21 +43,24 @@ void GameOver::pollEv()
     }
 
 }
-void GameOver::updateTexts(sf::Vector2f windowSize)
+void GameOver::updateTexts(const sf::Vector2f &windowSize)
 {
+    this -> setFont();
     this -> setStringTexts();
     this -> setScaleTexts();
     this -> setPos(windowSize);
     this -> SetColor();
 
 }
-void GameOver::updateMousePos(sf::Vector2f mousePosView_)
+void GameOver::setFont()
 {
-    this -> mousePosView = mousePosView_;
-}
-void GameOver::updatePoint(float point_)
-{
-    this -> score = point_;
+    this -> yourScore.setFont(this -> font);
+    this -> Score.setFont(this -> font);
+    this -> gameOver.setFont(this -> gameOverFont);
+    this -> playAgain.setFont(this -> font);
+    this -> choice1.setFont(this -> font);
+    this -> choice2.setFont(this -> font);
+    this -> choice3.setFont(this -> font);
 }
 void GameOver::setStringTexts()
 {
@@ -89,7 +84,7 @@ void GameOver::setScaleTexts()
     this -> choice2.setScale(1.f, 1.f);
     this -> choice3.setScale(1.f, 1.f);
 }
-void GameOver::setPos(sf::Vector2f windowSize)
+void GameOver::setPos(const sf::Vector2f &windowSize)
 {
 
     this -> gameOver.setPosition(windowSize.x / 2 - 250.f,windowSize.y / 2 - 100.f);
@@ -110,6 +105,14 @@ void GameOver::SetColor()
     this -> choice1.setColor(sf::Color::White);
     this -> choice2.setColor(sf::Color::White);
 
+}
+void GameOver::updateMousePos(sf::Vector2f *mousePosView_)
+{
+    this -> mousePosView = *mousePosView_;
+}
+void GameOver::updatePoint(const float &point_)
+{
+    this -> score = point_;
 }
 void GameOver::render(sf::RenderTarget *target)
 {

@@ -47,6 +47,19 @@ void Hello::running(sf::RenderWindow *window){
             this -> isReturn = rule.isReturnFun();
             choices = 0;
         }
+        else if(choices == 3)
+        {
+            Score score;
+            score.run(window);
+            if(score.isClosed())
+            {
+
+                break;
+            }
+            this -> click.play();
+            this -> isReturn = score.isReturnFun();
+            choices = 0;
+        }
         if(isReturn)
         {
             this -> choices = 0;

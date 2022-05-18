@@ -21,6 +21,7 @@
 #include "Loading.h"
 #include "Boom.h"
 #include "Pause.h"
+#include "Score.h"
 
 class Game{
 private:

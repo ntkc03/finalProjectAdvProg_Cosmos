@@ -40,7 +40,7 @@ void Game::setOriginPos(sf::RenderWindow *window)
     this -> surround.setPosition(window -> getSize().x - healthBarWidth - 4.f , 10.f);
     this -> fill.setPosition(surround.getPosition());
     this -> background -> setFirstPos(window);
-    this -> pause -> setPos(window, window -> getSize().x - 320.f, 50.f);
+    this -> pause -> setPos(window, sf::Vector2f(window -> getSize().x - 320.f, 50.f));
     this -> clock.setPosition(15.f, 60.f);
 }
 
@@ -49,12 +49,11 @@ void Game::updatePause(sf::RenderWindow *window)
     this -> pollEv(window);
     this -> pause -> pollEv(window);
     this -> updateMousePos(window);
-    this -> pause -> updateMousePos(mousePosView);
+    this -> pause -> updateMousePos(&mousePosView);
 }
 void Game::update(sf::RenderWindow *window){
     this -> pollEv(window);
     this -> background -> update(window);
-    this -> player -> update();
     this -> updateCollision(window);
     this -> updateInput(window);
     this -> updateBullets();
@@ -105,24 +104,24 @@ void Game::updateInput(sf::RenderWindow *window){
     //moving
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        this -> player->move(-0.1f, 0.f);
-        this -> background -> moveStars(window, 1.f, 0.f);
+        this -> player->move(sf::Vector2f(-0.1f, 0.f));
+        this -> background -> moveStars(sf::Vector2f(1.f, 0.f));
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
    {
-       this -> player->move(0.1f, 0.f);
-       this -> background -> moveStars(window, -1.f, 0.f);
+       this -> player->move(sf::Vector2f(0.1f, 0.f));
+       this -> background -> moveStars(sf::Vector2f(-1.f, 0.f));
    }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        this -> player->move(0.f, -0.1f);
-        this -> background -> moveStars(window, 0.f, 1.f);
+        this -> player->move(sf::Vector2f(0.f, -0.1f));
+        this -> background -> moveStars(sf::Vector2f(0.f, 1.f));
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        this -> player->move(0.f, 0.1f);
-        this -> background -> moveStars(window, 0.f, -1.f);
+        this -> player->move(sf::Vector2f(0.f, 0.1f));
+        this -> background -> moveStars(sf::Vector2f(0.f, -1.f));
     }
 
 
@@ -131,26 +130,23 @@ void Game::updateInput(sf::RenderWindow *window){
         this -> isShooted = true;
         this -> clockSound.play();
         this -> bullets.push_back(new Bullet(this -> resources["BULLET"],
-                                    this -> player -> getPos().x + this -> player -> getBounds().width / 2.f,
-                                    this -> player -> getPos().y,
-                                    0.7f,
-                                    0.7f,
+                                    sf::Vector2f(this -> player -> getPos().x + this -> player -> getBounds().width / 2.f,
+                                                this -> player -> getPos().y),
+                                    sf::Vector2f(0.7f,0.7f),
                                     5.f));
         this -> bulletShoot.play();
 
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && isCoolDown()){
             this -> lazerBullets.push_back(new Bullet(this -> resources["lazer"],
-                                        this -> player -> getPos().x + this -> player -> getBounds().width / 2.f - 60.f,
-                                        this -> player -> getPos().y,
-                                        0.5f,
-                                        0.5f,
+                                        sf::Vector2f(this -> player -> getPos().x + this -> player -> getBounds().width / 2.f - 60.f,
+                                                    this -> player -> getPos().y),
+                                        sf::Vector2f(0.5f,0.5f),
                                         5.f));
             this -> lazerBullets.push_back(new Bullet(this -> resources["lazer"],
-                                        this -> player -> getPos().x + this -> player -> getBounds().width / 2.f  + 40.f,
-                                        this -> player -> getPos().y,
-                                        0.5f,
-                                        0.5f,
+                                        sf::Vector2f(this -> player -> getPos().x + this -> player -> getBounds().width / 2.f  + 40.f,
+                                                    this -> player -> getPos().y),
+                                        sf::Vector2f(0.5f,0.5f),
                                         5.f));
             this -> bulletShoot.play();
     }
@@ -168,9 +164,9 @@ void Game::updateObjects(sf::RenderWindow *window){
         int type = rand() % this -> objectTypes.size();
         if(this -> timeBetween2Objects >= this -> timeBetween2ObjectsMax){
             if(objectTypes[type] == "alien")
-                this -> objects.push_back(new Object(this -> resources["alien"], rand() % window->getSize().x-20.f, -100.f, 0.5f, 0.5f, this -> objectSpeed, true));
+                this -> objects.push_back(new Object(this -> resources["alien"],sf::Vector2f(rand() % window->getSize().x-20.f, -100.f), sf::Vector2f(0.5f, 0.5f), this -> objectSpeed, true));
             else
-                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], rand() % window->getSize().x-20.f, -100.f, 0.8f, 0.8f, this -> objectSpeed, false));
+                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f),sf::Vector2f(0.8f, 0.8f), this -> objectSpeed, false));
             this -> timeBetween2Objects = 0.f;
         }
         else timeBetween2Objects += 0.5f;
@@ -197,7 +193,7 @@ void Game::updateObjectsSpeed()
 void Game::updatePlanet(sf::RenderWindow *window){
     int type = rand() % planetTypes.size();
     if(this -> timeBetween2Planets >= this -> timeBetween2PlanetsMax){
-        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], rand() % window->getSize().x-20.f, -100.f, 1.2f));
+        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f), 1.2f));
         this -> timeBetween2Planets = 0.f;
     }
     else this -> timeBetween2Planets += 0.5f;
@@ -352,7 +348,7 @@ void Game::updateFinalPoints(sf::RenderWindow *window)
     this -> updateMousePos(window);
     this -> background -> update(window);
     this -> gameOver -> updatePoint(this -> point);
-    this -> gameOver -> updateMousePos(this -> mousePosView);
+    this -> gameOver -> updateMousePos(&mousePosView);
     this -> gameOver -> update(windowsize);
 }
 

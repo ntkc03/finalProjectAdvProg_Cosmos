@@ -13,14 +13,14 @@ private:
     bool Alien;
 public:
 
-    Object(sf::Texture *texture, float posX, float posY, float sizeX, float sizeY, float speed, bool isAlien_);
+    Object(sf::Texture *texture, const sf::Vector2f &pos, const sf::Vector2f &Size, const float &speed,const bool &isAlien_);
     virtual ~Object();
 
     sf::Vector2f getPos();
     sf::FloatRect getBounds();
     const bool isAlien() const;
 
-    void updateSpeed(float laterSpeed);
+    void updateSpeed(const float &laterSpeed);
     void update();
     void render(sf::RenderTarget *target);
 };

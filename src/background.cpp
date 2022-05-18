@@ -28,13 +28,13 @@ void Background::setFirstPos(sf::RenderWindow *window)
 {
     for(int i = 0; i <stars.size(); i++)
     {
-        stars[i] -> setFirstPos(rand() % (window -> getSize().x + 500) - 100, rand() % (window -> getSize().y + 500) - 100) ;
+        stars[i] -> setFirstPos(sf::Vector2f(rand() % (window -> getSize().x + 500) - 100, rand() % (window -> getSize().y + 500) - 100)) ;
     }
 }
-void Background::moveStars(sf::RenderWindow *window, float x, float y)
+void Background::moveStars(const sf::Vector2f &offset)
 {
     for(auto *i: stars){
-        i -> circleMove(x, y);
+        i -> circleMove(offset);
     }
 }
 void Background::update(sf::RenderWindow * window )

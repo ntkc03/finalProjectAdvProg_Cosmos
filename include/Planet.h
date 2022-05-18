@@ -15,7 +15,7 @@ private:
 
 
 public:
-    Planet(sf::Texture *texture, float posX, float posY, float movementSpeed_);
+    Planet(sf::Texture *texture, const sf::Vector2f &pos, const float &movementSpeed_);
     virtual ~Planet();
 
     sf::Vector2f getPos();

@@ -15,7 +15,8 @@ void Hello::setString()
     this -> demand.setString("> Click to start");
     this -> choice1.setString("1. Play Game");
     this -> choice2.setString("2. How to play");
-    this -> choice3.setString("3. Exit");
+    this -> choice3.setString("3. Score");
+    this -> choice4.setString("4. Exit");
 
 }
 void Hello::setColor()
@@ -26,7 +27,7 @@ void Hello::setColor()
     this -> choice1.setColor(sf::Color::White);
     this -> choice2.setColor(sf::Color::White);
     this -> choice3.setColor(sf::Color::White);
-
+    this -> choice3.setColor(sf::Color::White);
 }
 sf::Color Hello::randomColor()
 {
@@ -44,6 +45,7 @@ void Hello::setPos(sf::RenderWindow *window)
     this -> choice1.setPosition(this -> demand.getPosition().x + 50.f, this -> demand.getPosition().y + 50.f);
     this -> choice2.setPosition(this -> choice1.getPosition().x , this -> choice1.getPosition().y + 50.f);
     this -> choice3.setPosition(this -> choice2.getPosition().x , this -> choice2.getPosition().y + 50.f);
+    this -> choice4.setPosition(this -> choice3.getPosition().x , this -> choice3.getPosition().y + 50.f);
 }
 void Hello::setFont()
 {
@@ -53,6 +55,7 @@ void Hello::setFont()
     this -> choice1.setFont(this -> font2);
     this -> choice2.setFont(this -> font2);
     this -> choice3.setFont(this -> font2);
+    this -> choice4.setFont(this -> font2);
 }
 void Hello::setScale()
 {
@@ -62,6 +65,7 @@ void Hello::setScale()
     this -> choice1.setScale(1.5f, 1.5f);
     this -> choice2.setScale(1.5f, 1.5f);
     this -> choice3.setScale(1.5f, 1.5f);
+    this -> choice4.setScale(1.5f, 1.5f);
 }
 
 

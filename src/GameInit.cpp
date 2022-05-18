@@ -24,6 +24,7 @@ void Game::initPlayer(const int &playerChoice){
     this -> playerSpeed = 20.f;
     this -> player = new Player;
     player -> getChoice(playerChoice);
+    player -> setPlayer();
 }
 
 void Game::initbackground(){
@@ -205,7 +206,6 @@ void Game::initSound()
     this -> clockBuff.loadFromFile("audio/clock.wav");
     this -> clockSound.setBuffer(this -> clockBuff);
     this -> clockSound.setLoop(true);
-
 
 
 

@@ -1,23 +1,23 @@
-#ifndef RULE_H
-#define RULE_H
+#ifndef SCORE_H
+#define SCORE_H
 
 #include <iostream>
-#include <SFML/Audio.hpp>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include "background.h"
-
-class Rule
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <map>
+#include <background.h>
+class Score
 {
-private:
     sf::Font titleFont;
     sf::Font contentFont;
     sf::Text title;
-    sf::Text intruction1;
-    sf::Text intruction2;
-    sf::Text intruction3;
-    sf::Text title_;
-    sf::Text scoreCal1, scoreCal2;
+    std::vector<sf::Text> highestScore;
+    std::vector<int> score;
+    int numOfHighestScore;
 
     sf::Sprite button;
     sf::Texture button_;
@@ -31,16 +31,17 @@ private:
 	sf::Event ev;
 	bool isReturn;
     bool closed;
-    //private function
-    void initVariables();
+
     void initFont();
+    void initScore();
+    void initHighestScore();
     void initText();
     void initTexture();
     void initSprite();
     void initBKG();
 public:
-    Rule();
-    virtual ~Rule();
+    Score();
+    virtual ~Score();
 
     const bool isRunning(sf::RenderWindow *window) const;
     bool isClosed();
@@ -48,8 +49,7 @@ public:
 
     void run(sf::RenderWindow *window);
 
-    void setCharacter(sf::RenderWindow *window);
-    void setFont();
+    void setText(sf::RenderWindow *window);
     void setString();
     void setPos(sf::RenderWindow *window);
     void setScale();
@@ -57,10 +57,11 @@ public:
 
     void update(sf::RenderWindow *window);
     void pollEve(sf::RenderWindow * window);
-    void updateMousePos(sf::RenderWindow * window);
+    void updateMousePos(sf::RenderWindow *window);
 
     void render(sf::RenderWindow *window);
 
-};
 
-#endif // RULE_H
+};
+void enterNewScore(const float &score);
+#endif // SCORE_H

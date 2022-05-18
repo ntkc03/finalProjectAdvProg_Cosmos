@@ -26,16 +26,17 @@ private:
 
     void initTexture();
     void initSprite();
+    void initSound();
 public:
     Pause();
     virtual ~Pause();
     bool isPlay();
     bool isContinue();
 
-    void setPos(sf::RenderWindow *window, float posX, float posY);
+    void setPos(sf::RenderWindow *window, const sf::Vector2f &pos);
 
     void pollEv(sf::RenderWindow *window);
-    void updateMousePos(sf::Vector2f mousePosView_);
+    void updateMousePos(sf::Vector2f *mousePosView_);
 
     void render(sf::RenderWindow *window);
 };

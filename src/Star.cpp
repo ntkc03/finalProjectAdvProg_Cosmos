@@ -9,14 +9,14 @@ Star::~Star()
 
 }
 
-void Star::setFirstPos(float posX, float posY)
+void Star::setFirstPos(const sf::Vector2f &pos)
 {
-    this -> circle.setPosition(posX, posY);
+    this -> circle.setPosition(pos);
 }
 
-void Star::circleMove(float x, float y)
+void Star::circleMove(const sf::Vector2f &offset)
 {
-    this -> circle.move(x * this -> movementSpeed, this -> movementSpeed * y);
+    this -> circle.move(offset * this -> movementSpeed);
 }
 sf::Color Star::randomColor()
 {

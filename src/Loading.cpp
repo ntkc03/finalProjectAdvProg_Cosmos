@@ -2,15 +2,19 @@
 
 void Loading::initVariable()
 {
-    this -> font.loadFromFile("fonts/ConnectionIi.otf");
+
     this -> num = 0.f;
     this -> spawnTimerMax = 10.f;
     this -> spawnTimer = this -> spawnTimerMax;
 }
-
+void Loading::initFont()
+{
+    this -> font.loadFromFile("fonts/ConnectionIi.otf");
+}
 Loading::Loading()
 {
     this -> initVariable();
+    this -> initFont();
 }
 Loading:: ~Loading()
 {
@@ -20,24 +24,24 @@ float Loading::getNumber()
 {
     return num;
 }
-void Loading::update(sf::Vector2f windowsize)
+void Loading::update(const sf::Vector2f &windowSize)
 {
     if(spawnTimer > spawnTimerMax)
     {
-        this -> updateTexts(windowsize);
+        this -> updateTexts(windowSize);
         num += 5.f;
         this -> spawnTimer = 0.f;
     }
     else spawnTimer += 1.f;
 
 }
-void Loading::updateTexts(sf::Vector2f windowsize)
+void Loading::updateTexts(const sf::Vector2f &windowSize)
 {
     this -> setFont();
     this -> setString();
     this -> setScale();
     this -> setColor();
-    this -> setPos(windowsize);
+    this -> setPos(windowSize);
 }
 void Loading::setFont()
 {
@@ -61,10 +65,10 @@ void Loading::setColor()
     this -> loading.setColor(sf::Color::White);
     this -> number.setColor(sf::Color::White);
 }
-void Loading::setPos(sf::Vector2f windowsize)
+void Loading::setPos(const sf::Vector2f &windowSize)
 {
-    this -> loading.setPosition(windowsize.x / 2 - 100.f, windowsize.y / 2 - 100.f);
-    this -> number.setPosition(this -> loading.getPosition().x + 80.f, this -> loading.getPosition().y + 80.f);
+    this -> loading.setPosition(sf::Vector2f(windowSize.x / 2 - 100.f, windowSize.y / 2 - 100.f));
+    this -> number.setPosition(sf::Vector2f(this -> loading.getPosition().x + 80.f, this -> loading.getPosition().y + 80.f));
 }
 
 void Loading::render(sf::RenderTarget *target){

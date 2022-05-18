@@ -17,8 +17,8 @@ public:
     Background();
     virtual ~Background();
     void setFirstPos(sf::RenderWindow *window);
-    void moveStars(sf::RenderWindow *window, float x, float y);
-    void update(sf::RenderWindow * window );
+    void moveStars(const sf::Vector2f &offset);
+    void update(sf::RenderWindow * window);
     void render(sf::RenderWindow *target);
 };
 

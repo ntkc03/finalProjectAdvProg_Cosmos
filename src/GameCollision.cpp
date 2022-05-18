@@ -51,7 +51,7 @@ void Game::updateObjectsCollision(sf::RenderWindow *window)
 {
     int idx = 0;
         for(auto *i: this -> objects){
-            i->updateSpeed(this -> objectSpeed);
+            i->updateSpeed(objectSpeed);
             i->update();
 
             if(i->getBounds().top > window->getSize().y){
