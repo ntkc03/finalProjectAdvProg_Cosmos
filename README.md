@@ -19,7 +19,7 @@
 - Chơi lại nhiều lần/thoát game
 - Cho biết lượt mạng còn lại
 - Có âm thanh
-- 
+- Có cho biết 5 điểm cao nhất.
 # Các kĩ thuật lập trình đã sử dụng:
 - Mảng động vector
 - STL - Map
@@ -28,8 +28,12 @@
 - Đồ họa SFML
 - Chuỗi
 - Stringstream
+- Sắp xếp
+- Đọc ghi file
 # Kết luận:
-
+# Hướng phát triển:
+- Thêm chức năng tài khoản:
+  + Trước hết, ta có thể chỉ nhập tên từ bàn phím và không có mật khẩu, không có yêu cầu về độ dài cũng như các kĩ tự trong tên. Ý tưởng của em là sẽ 
  - Trước khi làm, em có học về SFML tại https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up và https://www.sfml-dev.org/tutorials/2.5/. 
  - Phần code là do tự mình em làm.
  - Phần hình ảnh em chủ yếu lấy trên https://www.pinterest.com/ rồi chỉnh sửa để phù hợp với game.
