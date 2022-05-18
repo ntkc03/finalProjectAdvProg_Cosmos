@@ -20,6 +20,7 @@
 - Cho biết lượt mạng còn lại
 - Có âm thanh
 - Lưu điểm và có thể cho biết 5 điểm cao nhất.
+Link demo: 
 # Các kĩ thuật lập trình đã sử dụng:
 - Mảng động vector
 - STL - Map
