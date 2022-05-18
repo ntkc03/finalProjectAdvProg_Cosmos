@@ -10,15 +10,17 @@
 - 
 # Các chức năng đã cài đặt:
 - Menu của game: chơi game, đọc luật chơi, thoát khỏi game.
-- Chọn người chơi
-- Tạm dừng/tiếp tục hoặc dừng hẳn trong khi chơi
-- Nhận input từ chuột để chọn các lựa chọn
-- Nhận input từ bàn phím để di chuyển người chơi hoặc tiêu diệt các mục tiêu
-- Tính điểm và cho biết điểm sau mỗi lượt chơi
-- Có thể quay lại menu
-- Chơi lại nhiều lần/thoát game
-- Cho biết lượt mạng còn lại
-- Có âm thanh
+- Đồ họa của game.
+- Chọn người chơi.
+- Tạm dừng/tiếp tục hoặc dừng hẳn trong khi chơi.
+- Nhận input từ chuột để chọn các lựa chọn.
+- Nhận input từ bàn phím để di chuyển người chơi hoặc tiêu diệt các mục tiêu.
+- In ra màn hình số điểm, số mạng còn lại.
+- Tính điểm và cho biết điểm sau mỗi lượt chơi.
+- Có thể quay lại menu.
+- Chơi lại nhiều lần/thoát game.
+- Cho biết lượt mạng còn lại.
+- Có âm thanh.
 - Lưu điểm và có thể cho biết 5 điểm cao nhất.
 Link demo: 
 # Các kĩ thuật lập trình đã sử dụng:
