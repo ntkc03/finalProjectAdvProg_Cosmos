@@ -54,7 +54,7 @@ void Game::updatePause(sf::RenderWindow *window)
 void Game::update(sf::RenderWindow *window){
     this -> pollEv(window);
     this -> background -> update(window);
-    this -> updateCollision(window);
+    this -> updatePlayerCollision(window);
     this -> updateInput(window);
     this -> updateBullets();
     this -> updateObjects(window);
@@ -102,6 +102,13 @@ void Game::updateInput(sf::RenderWindow *window){
     */
 
     //moving
+    this -> updateMoving(window);
+    //Shooting
+    this -> updateShooting(window);
+
+}
+void Game::updateMoving(sf::RenderWindow *window)
+{
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         this -> player->move(sf::Vector2f(-0.1f, 0.f));
@@ -124,8 +131,9 @@ void Game::updateInput(sf::RenderWindow *window){
         this -> background -> moveStars(sf::Vector2f(0.f, -1.f));
     }
 
-
-    //Shooting
+}
+void Game::updateShooting(sf::RenderWindow *window)
+{
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && isCoolDown() && isEndTimer){
         this -> isShooted = true;
         this -> clockSound.play();
@@ -151,9 +159,7 @@ void Game::updateInput(sf::RenderWindow *window){
             this -> bulletShoot.play();
     }
 
-
 }
-
 void Game::updateObjects(sf::RenderWindow *window){
     /*
     return void:
@@ -163,16 +169,30 @@ void Game::updateObjects(sf::RenderWindow *window){
     if(this -> waitingBeginingTime < 0){
         int type = rand() % this -> objectTypes.size();
         if(this -> timeBetween2Objects >= this -> timeBetween2ObjectsMax){
-            if(objectTypes[type] == "alien")
-                this -> objects.push_back(new Object(this -> resources["alien"],sf::Vector2f(rand() % window->getSize().x-20.f, -100.f), sf::Vector2f(0.5f, 0.5f), this -> objectSpeed, true));
+            if(objectTypes[type] == "alien"){
+                this -> aliens.push_back(new Alien(this -> resources["alien"],sf::Vector2f(rand() % window->getSize().x-20.f, -100.f), sf::Vector2f(0.5f, 0.5f), objectSpeed));
+                this -> aliens.back() ->setRadarArea();
+            }
             else
-                this -> objects.push_back(new Object(this -> resources[objectTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f),sf::Vector2f(0.8f, 0.8f), this -> objectSpeed, false));
+                this -> rocks.push_back(new Object(this -> resources[objectTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f),sf::Vector2f(0.8f, 0.8f), objectSpeed));
             this -> timeBetween2Objects = 0.f;
         }
         else timeBetween2Objects += 0.5f;
-        this -> updateObjectsCollision(window);
+        this -> updateObjectsCollision(window,aliens);
+        this -> updateObjectsCollision(window,rocks,false);
     }
     else this -> waitingBeginingTime -= 1.f;
+    updateAliens();
+}
+void Game::updateAliens()
+{
+    for(auto *i: aliens)
+    {
+        i -> updateBullets();
+        i -> updateMove(player ->getPos());
+
+    }
+
 }
 void Game::updateObjectsSpeed()
 {
@@ -187,17 +207,18 @@ void Game::updateObjectsSpeed()
         this -> objectSpeed += 0.5f;
         this -> level++;
         this -> timeTextLast = 50.f;
-        this -> timeBetween2PlanetsMax -= 5.f;
+        this -> timeBetween2ObjectsMax -= 5.f;
     }
 }
 void Game::updatePlanet(sf::RenderWindow *window){
     int type = rand() % planetTypes.size();
     if(this -> timeBetween2Planets >= this -> timeBetween2PlanetsMax){
-        this -> planets.push_back(new Planet(this -> resources[planetTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f), 1.2f));
+        this -> planets.push_back(new Object(this -> resources[planetTypes[type]], sf::Vector2f(rand() % window->getSize().x-20.f, -100.f),sf::Vector2f(0.6f, 0.6f), 1.2f));
         this -> timeBetween2Planets = 0.f;
     }
     else this -> timeBetween2Planets += 0.5f;
-    this -> updatePlanetCollision(window);
+    //this -> updatePlanetCollision(window);
+    this -> updateObjectsCollision(window, planets, true);
 }
 void Game::updateBulletsCombats(){
     /*
@@ -207,24 +228,29 @@ void Game::updateBulletsCombats(){
         - Planet: 1 bullet can destroy only the planet that it crash into.
     */
 
-    //combat with enemies
+    this -> updateBulletsCombatsWithAliens();
+    this -> updateBulletsCombatsWithRock();
+    this -> updateBulletsCombatsWithPlanet();
+
+}
+void Game::updateBulletsCombatsWithAliens()
+{
     for(unsigned j = 0; j < this -> bullets.size(); j++){
-        for(unsigned i = 0; i < this -> objects.size(); i++){
-            if(this->objects[i]->getBounds().intersects(this->bullets[j]->getBounds())){
+        for(unsigned i = 0; i < this -> aliens.size(); i++){
+            if(this->aliens[i]->getBounds().intersects(this->bullets[j]->getBounds())){
                 this -> isBoom = true;
                 for(auto num: booms)
                 {
-                    num -> setPos(objects[i] -> getPos());
+                    num -> setPos(aliens[i] -> getPos());
                 }
-                this -> shootedArea.setPosition(this -> objects[i] -> getPos().x - 150.f, this -> objects[i] -> getPos().y - 150.f);
+                this -> shootedArea.setPosition(this -> aliens[i] -> getPos().x - 150.f, this -> aliens[i] -> getPos().y - 150.f);
                 int num = 0;
-                while(num < objects.size()){
-                    if(this -> shootedArea.getGlobalBounds().intersects(this -> objects[num] -> getBounds()))
+                while(num < aliens.size()){
+                    if(this -> shootedArea.getGlobalBounds().intersects(this -> aliens[num] -> getBounds()))
                        {
-                           delete this -> objects[num];
-                           this -> objects.erase(this -> objects.begin() + num);
-                           if(objects[i]->isAlien()) point += 200.f;
-                            else point += 100.f;
+                           delete this -> aliens[num];
+                           this -> aliens.erase(this -> aliens.begin() + num);
+                           point += 200.f;
                        }
                        else num++;
                 }
@@ -248,8 +274,51 @@ void Game::updateBulletsCombats(){
             }
         }
     }
+}
+void Game::updateBulletsCombatsWithRock()
+{
+    for(unsigned j = 0; j < this -> bullets.size(); j++){
+        for(unsigned i = 0; i < this -> rocks.size(); i++){
+            if(this->rocks[i]->getBounds().intersects(this->bullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(rocks[i] -> getPos());
+                }
+                this -> shootedArea.setPosition(this -> rocks[i] -> getPos().x - 150.f, this -> rocks[i] -> getPos().y - 150.f);
+                int num = 0;
+                while(num < rocks.size()){
+                    if(this -> shootedArea.getGlobalBounds().intersects(this -> rocks[num] -> getBounds()))
+                       {
+                           delete this -> rocks[num];
+                           this -> rocks.erase(this -> rocks.begin() + num);
+                           point += 100.f;
+                       }
+                       else num++;
+                }
 
-    //combat with planets
+                num = 0;
+                while(num < planets.size()){
+                    if(this -> shootedArea.getGlobalBounds().intersects(this -> planets[num] -> getBounds()))
+                       {
+                           delete this -> planets[num];
+                           this -> planets.erase(this -> planets.begin() + num);
+                           this -> curr_health -= 1.f;
+                            this -> loseHeal.play();
+                       }
+                       else num++;
+                }
+                delete this -> bullets[j];
+                this -> bullets.erase(this -> bullets.begin() + j);
+
+                this -> collision.play();
+                break;
+            }
+        }
+    }
+}
+void Game::updateBulletsCombatsWithPlanet()
+{
     for(unsigned j = 0; j < this -> bullets.size(); j++){
         for(unsigned i = 0; i < this -> planets.size(); i++){
             if(this->planets[i]->getBounds().intersects(this->bullets[j]->getBounds())){
@@ -278,30 +347,61 @@ void Game::updatelazerCombat()
         one lazer bullet can destroy only one object or planet
     */
 
-    //Combat with enemies
+    updatelazerCombatAlien();
+    updatelazerCombatRock();
+    updatelazerCombatPlanet();
+
+
+}
+void Game::updatelazerCombatAlien()
+{
     for(unsigned j = 0; j < this -> lazerBullets.size(); j++){
-        for(unsigned i = 0; i < this -> objects.size(); i++){
-            if(this->objects[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
+        for(unsigned i = 0; i < this -> aliens.size(); i++){
+            if(this->aliens[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
                 this -> isBoom = true;
                 for(auto num: booms)
                 {
-                    num -> setPos(objects[i] -> getPos());
+                    num -> setPos(aliens[i] -> getPos());
                 }
 
-                delete this -> objects[i];
-                this -> objects.erase(this -> objects.begin() + i);
+                delete this -> aliens[i];
+                this -> aliens.erase(this -> aliens.begin() + i);
 
                 delete this -> lazerBullets[j];
                 this -> lazerBullets.erase(this -> lazerBullets.begin() + j);
-                if(objects[i]->isAlien()) point += 200.f;
-                else point += 100.f;
+                point += 200.f;
                 this -> collision.play();
                 break;
             }
         }
     }
+}
+void Game::updatelazerCombatRock()
 
-    //combat with planets
+{
+    for(unsigned j = 0; j < this -> lazerBullets.size(); j++){
+        for(unsigned i = 0; i < this -> rocks.size(); i++){
+            if(this->rocks[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
+                this -> isBoom = true;
+                for(auto num: booms)
+                {
+                    num -> setPos(rocks[i] -> getPos());
+                }
+
+                delete this -> rocks[i];
+                this -> rocks.erase(this -> rocks.begin() + i);
+
+                delete this -> lazerBullets[j];
+                this -> lazerBullets.erase(this -> lazerBullets.begin() + j);
+                point += 100.f;
+                this -> collision.play();
+                break;
+            }
+        }
+    }
+}
+void Game::updatelazerCombatPlanet()
+{
     for(unsigned j = 0; j < this -> lazerBullets.size(); j++){
         for(unsigned i = 0; i < this -> planets.size(); i++){
             if(this->planets[i]->getBounds().intersects(this->lazerBullets[j]->getBounds())){
@@ -322,7 +422,6 @@ void Game::updatelazerCombat()
             }
         }
     }
-
 }
 void Game::updateText(){
     std::stringstream ss;

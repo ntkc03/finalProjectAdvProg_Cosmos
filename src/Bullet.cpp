@@ -14,8 +14,8 @@ Bullet::~Bullet(){
 const sf::FloatRect Bullet::getBounds(){
     return this -> sprite.getGlobalBounds();
 }
-void Bullet::update(){
-    this -> sprite.move(sf::Vector2f(0.f, -1.f) * movementSpeed);
+void Bullet::update(const sf::Vector2f &direction ){
+    this -> sprite.move(direction * movementSpeed);
 }
 void Bullet::render(sf::RenderTarget *target){
     target -> draw(this -> sprite);

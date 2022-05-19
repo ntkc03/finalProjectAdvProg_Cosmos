@@ -15,8 +15,13 @@ void Game::render(sf::RenderWindow *window){
     {
         i -> render(window);
     }
-    for(auto *i: this -> objects){
+    for(auto *i: this -> rocks){
         i -> render(window);
+    }
+    for(auto *i: this -> aliens){
+        i -> renderBullets(window);
+        i -> render(window);
+
     }
     for(auto *i: this -> planets){
         i -> render(window);

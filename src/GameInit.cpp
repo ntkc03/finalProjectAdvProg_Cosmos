@@ -118,7 +118,7 @@ void Game::initObjects(){
     this -> timeTextLast = 0.f;
 
 
-    this -> timeBetween2ObjectsMax = 20.f;
+    this -> timeBetween2ObjectsMax = 40.f;
     this -> timeBetween2Objects = this -> timeBetween2ObjectsMax;
 
     //enum the objects' type

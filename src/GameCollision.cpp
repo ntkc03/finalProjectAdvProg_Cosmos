@@ -1,6 +1,6 @@
 #include "Game.h"
 
-void Game::updateCollision(sf::RenderWindow *window){
+void Game::updatePlayerCollision(sf::RenderWindow *window){
     /*
     return void
         - set the bound collisions of player that player can't go out of the window
@@ -29,7 +29,7 @@ void Game::updateBullets(){
     */
     int idx = 0;
     for(auto *i: this -> bullets){
-        i->update();
+        i->update(sf::Vector2f(0.f, -1.f));
         if(i ->getBounds().top + i -> getBounds().height <= 0.f){
             delete this -> bullets.at(idx);
             this -> bullets.erase(this -> bullets.begin() + idx);
@@ -39,7 +39,7 @@ void Game::updateBullets(){
 
     idx = 0;
     for(auto *i: this -> lazerBullets){
-        i->update();
+        i->update(sf::Vector2f(0.f, -1.f));
         if(i ->getBounds().top + i -> getBounds().height <= 0.f){
             delete this -> lazerBullets.at(idx);
             this -> lazerBullets.erase(this -> lazerBullets.begin() + idx);
@@ -47,46 +47,56 @@ void Game::updateBullets(){
         else idx++;
     }
 }
-void Game::updateObjectsCollision(sf::RenderWindow *window)
+void Game::updateObjectsCollision(sf::RenderWindow *window, std::vector<Object *> &obj, bool isPlanet)
 {
     int idx = 0;
-        for(auto *i: this -> objects){
-            i->updateSpeed(objectSpeed);
-            i->update();
+    for(auto *i: obj){
+        i->updateSpeed(objectSpeed);
+        i->update(sf::Vector2f(0.f, 1.f));
 
-            if(i->getBounds().top > window->getSize().y){
-                delete this -> objects.at(idx);
-                this -> objects.erase(this -> objects.begin() + idx);
-            }
-            else if(i->getBounds().intersects(this -> player->getBounds())){
-                delete this -> objects.at(idx);
-                this -> objects.erase(this -> objects.begin() + idx);
+        if(i->getBounds().top > window->getSize().y){
+            delete obj.at(idx);
+            obj.erase(obj.begin() + idx);
+        }
+        else if(i->getBounds().intersects(this -> player->getBounds())){
+            delete obj.at(idx);
+            obj.erase(obj.begin() + idx);
+            if(!isPlanet)
+            {
                 this -> curr_health -= 1.f;
                 this -> loseHeal.play();
             }
-            idx++;
+            else{
+                this -> curr_health += 1.f;
+                this -> curr_health = curr_health >= healthMax ? healthMax : curr_health;
+            }
         }
+        idx++;
+    }
 }
-void Game::updatePlanetCollision(sf::RenderWindow *window)
+void Game::updateObjectsCollision(sf::RenderWindow *window, std::vector<Alien *> &obj)
 {
     int idx = 0;
-    for(auto *i: this -> planets){
-        i->update();
-
+    for(auto *i: obj){
+        i->updateSpeed(objectSpeed);
+        i->update(sf::Vector2f(0.f, 1.f));
+        i -> updateCollision(window, this -> player->getBounds());
+        if(i -> lostHealths() > 0){
+            this -> loseHeal.play();
+            curr_health -= i ->lostHealths();
+            i -> setLostHealth();
+        }
         if(i->getBounds().top > window->getSize().y){
-            delete this -> planets.at(idx);
-            this -> planets.erase(this -> planets.begin() + idx);
+            delete obj.at(idx);
+            obj.erase(obj.begin() + idx);
         }
         else if(i->getBounds().intersects(this -> player->getBounds())){
-            this -> earnHeal.play();
-            delete this -> planets.at(idx);
-            this -> planets.erase(this -> planets.begin() + idx);
-            this -> curr_health += 1.f;
-            this -> curr_health = curr_health >= healthMax ? healthMax : curr_health;
+            delete obj.at(idx);
+            obj.erase(obj.begin() + idx);
+            this -> curr_health -= 1.f;
+            this -> loseHeal.play();
 
         }
         idx++;
     }
 }
-
-

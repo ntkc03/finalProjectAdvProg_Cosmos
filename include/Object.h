@@ -10,18 +10,16 @@ class Object{
 private:
     sf::Sprite sprite;
     float movementSpeed;
-    bool Alien;
 public:
 
-    Object(sf::Texture *texture, const sf::Vector2f &pos, const sf::Vector2f &Size, const float &speed,const bool &isAlien_);
+    Object(sf::Texture *texture, const sf::Vector2f &pos, const sf::Vector2f &Size, const float &speed);
     virtual ~Object();
 
     sf::Vector2f getPos();
     sf::FloatRect getBounds();
-    const bool isAlien() const;
 
     void updateSpeed(const float &laterSpeed);
-    void update();
+    void update(const sf::Vector2f &direction);
     void render(sf::RenderTarget *target);
 };
 

@@ -33,7 +33,10 @@ Game::~Game(){
         delete i.second;
     }
 
-    for(auto i: this -> objects){
+    for(auto i: this -> rocks){
+        delete i;
+    }
+    for(auto i: this -> aliens){
         delete i;
     }
     for(auto i: this -> booms)

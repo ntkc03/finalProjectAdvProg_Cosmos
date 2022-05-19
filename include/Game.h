@@ -14,9 +14,9 @@
 
 #include "Player.h"
 #include "background.h"
+#include "Alien.h"
 #include "Object.h"
 #include "Bullet.h"
-#include "Planet.h"
 #include "GameOver.h"
 #include "Loading.h"
 #include "Boom.h"
@@ -57,7 +57,8 @@ private:
 
     //Object
     std::vector<std::string> objectTypes;
-    std::vector<Object *>objects;
+    std::vector<Object *>rocks;
+    std::vector<Alien *> aliens;
 
     //next level
     float objectSpeed;
@@ -71,7 +72,7 @@ private:
 
     //Planet
     std::vector<std::string> planetTypes;
-    std::vector<Planet *> planets;
+    std::vector<Object *> planets;
 
     //spawn Timer;
     float timeBetween2ObjectsMax;
@@ -179,18 +180,34 @@ public:
 
     //update
     void updatePause(sf::RenderWindow *window);
+
     void update(sf::RenderWindow *window);
     void pollEv(sf::RenderWindow *window);
-    void updateCollision(sf::RenderWindow *window);
+
+    void updatePlayerCollision(sf::RenderWindow *window);
+
     void updateInput(sf::RenderWindow *window);
+    void updateMoving(sf::RenderWindow *window);
+    void updateShooting(sf::RenderWindow *window);
+
     void updateBullets();
     void updateObjects(sf::RenderWindow *window);
+    void updateAliens();
     void updateObjectsSpeed();
-    void updateObjectsCollision(sf::RenderWindow *window);
+    void updateObjectsCollision(sf::RenderWindow *window, std::vector<Object *> &obj, bool isPlanet);
+    void updateObjectsCollision(sf::RenderWindow *window, std::vector<Alien *> &obj);
     void updatePlanet(sf::RenderWindow *window);
-    void updatePlanetCollision(sf::RenderWindow *window);
+
     void updateBulletsCombats();
+    void updateBulletsCombatsWithAliens();
+    void updateBulletsCombatsWithPlanet();
+    void updateBulletsCombatsWithRock();
+
     void updatelazerCombat();
+    void updatelazerCombatAlien();
+    void updatelazerCombatRock();
+    void updatelazerCombatPlanet();
+
     void updateText();
     void updateHealthBar();
     void updateMousePos(sf::RenderWindow *window);

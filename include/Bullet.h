@@ -15,7 +15,7 @@ public:
     virtual ~Bullet();
 
     const sf::FloatRect getBounds();
-    void update();
+    void update(const sf::Vector2f &direction);
     void render(sf::RenderTarget *target);
 };
 

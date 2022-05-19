@@ -46,7 +46,6 @@ void Score::initHighestScore()
         temp.setString(ss.str());
         highestScore.push_back(temp);
     }
-    std::cout << score.size();
     while(highestScore.size() < numOfHighestScore)
     {
         std::stringstream ss;
