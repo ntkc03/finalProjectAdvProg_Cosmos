@@ -3,28 +3,38 @@
 - MSV: 21020752
 - Lớp: K66-CC
 # Hướng dẫn cài đặt trên Window:
-
+```
+**1.** Tải tại [đây](https://drive.google.com/file/d/1A09iW1Y1rntdGdSCmRtJCemABz9hKW-m/view?usp=sharing) và giải nén.
+**2.** Nháy đúp chuột vào **Comos.exe**.
+**3.** Trong thư mục **Comos**, nháy đúp chuột vào **Comos.exe** và chơi thôi:>
+*Trong trường hợp máy của bạn chưa có mingw64 và SFML, xin vui lòng làm theo hướng dẫn trong link video demo ở phía dưới*
+```
 # Mô tả chung về trò chơi:
 - Người chơi sử dụng bàn phím và chuột để chơi:
+```
   + Nhấp chuột trái vào các lựa chọn.
   + Nhấn phím UP, Down, Left, Right trên bàn phím để di chuyển người chơi.
   + Nhấn phím A để bắn đạn chỉ tiêu diệt được một mục tiêu, nhấn phím S để bắn đạn có thể tiêu diệt nhiều mục tiêu trong bán kính.
+```
  - Người chơi di chuyển để né hoặc bắn tàu của người ngoài hành tinh hoặc thiên thạch hoặc hành tinh.
+ ```
    + Bắn trúng tàu: + 200 pt
    + Bắn trúng thiên thạch: + 100.f
    + Bắn trúng hành tinh: - 1 mạng
    + Va vào tàu hoặc thiên thạch: - 1 mạng.
    + Va vào hành tinh: + 1 mạng
+ ```
 - Tàu của người ngoài hành tinh có rada để phát hiện người chơi. Trong bán kính rada, nếu tàu phát hiện ra người chơi thì tàu sẽ di chuyển về phía người chơi và bắn đạn. Nếu tàu bị trúng đạn thì sẽ - 1 mạng.
 - Trong lúc chơi, có thể tạm dừng hoặc dừng hẳn.
 # Các ý tưởng chính:
 - Tạo ngẫu nhiên các tàu, thiên thạch và hành tinh ở trên cùng của màn hình và cho chúng di chuyển xuống dưới.
-- Khi nhấn phím A hoặc phím S, tạo đạn tại vị trí của người chơi đang ở đó và cho đạn di chuyển theo phương thẳng đứng lên trên.
+- Khi nhấn phím **A** hoặc phím **S**, tạo đạn tại vị trí của người chơi đang ở đó và cho đạn di chuyển theo phương thẳng đứng lên trên.
 - Để tính điểm và mạng, chủ yếu kiểm tra va chạm giữa các đối tượng. Khi hai đối tượng trên va chạm, chúng sẽ biến mất và xóa chúng ra khỏi mảng đã lưu.
 - Check va chạm giữa các vật thể và màn hình: Nếu các vật thể (trừ người chơi) đi ra khỏi màn hình thì nó sẽ biến mất và xóa ra khỏi mảng.
 - Bắn được nhiều mục tiêu: Vẽ một hình tròn có tâm tại viên đạn sau khi tiếp xúc với 1 vật thể và check trong hình tròn đó có những vật thể nào thì sẽ xóa.
 - Rada của tàu: tương tự như trên.
 # Các chức năng đã cài đặt:
+```bash
 - Menu của game: chơi game, đọc luật chơi, thoát khỏi game.
 - Đồ họa của game.
 - Chọn người chơi.
@@ -39,8 +49,10 @@
 - Cho biết lượt mạng còn lại.
 - Có âm thanh.
 - Lưu điểm và có thể cho biết 5 điểm cao nhất.
-Link demo: 
+```
+## [Link demo]()
 # Các kĩ thuật lập trình đã sử dụng:
+```bash
 - Mảng động vector
 - STL - Map
 - Con trỏ
@@ -51,6 +63,7 @@ Link demo:
 - Sắp xếp
 - Đọc, ghi file
 - Lập trình hướng đối tượng
+```
 # Kết luận:
 - Đây là một game không quá nhiều thuật toán phức tạp, chủ yếu dựa vào check va chạm giữa các vật thể để có thể tính điểm hoặc thêm/mất mạng.
 - Về những điều tâm đắc của bản thân:
@@ -70,8 +83,8 @@ Link demo:
 - Thêm chức năng bật, tắt tiếng hoặc thu âm.
 - Đóng gói game để chơi được ở nhiều máy mà không cần cài đặt mingw64 và sfml trong máy.
 # Nguồn học và lấy đồ họa, âm thanh.
- - Trước khi làm, em có học về SFML tại https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up và https://www.sfml-dev.org/tutorials/2.5/. 
+ - Trước khi làm, em có học về SFML tại [đây](https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up) và [đây](https://www.sfml-dev.org/tutorials/2.5/). 
  - Phần code là do tự mình em làm.
- - Phần hình ảnh em chủ yếu lấy trên https://www.pinterest.com/ rồi chỉnh sửa để phù hợp với game.
+ - Phần hình ảnh em chủ yếu lấy trên [Pinterest](https://www.pinterest.com/) rồi chỉnh sửa để phù hợp với game.
  - Phần âm thanh em lấy trên Youtube.
  - Tự đánh giá: 9/10
