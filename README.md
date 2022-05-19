@@ -11,6 +11,7 @@
 
 *Trong trường hợp máy của bạn chưa có mingw64 và SFML, xin vui lòng làm theo hướng dẫn trong link video demo ở phía dưới*
 ## Mô tả chung về trò chơi:
+- Game sử dụng ngôn ngữ C++ và thư viện đồ họa SFML.
 - Người chơi sử dụng bàn phím và chuột để chơi:
 ```
   + Nhấp chuột trái vào các lựa chọn.
