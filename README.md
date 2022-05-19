@@ -13,20 +13,16 @@
 ## Mô tả chung về trò chơi:
 - Game sử dụng ngôn ngữ C++ và thư viện đồ họa SFML.
 - Người chơi sử dụng bàn phím và chuột để chơi:
-```
   + Nhấp chuột trái vào các lựa chọn.
   + Nhấn phím UP, Down, Left, Right trên bàn phím để di chuyển người chơi.
   + Nhấn phím A để bắn đạn chỉ tiêu diệt được một mục tiêu.
   + Nhấn phím S để bắn đạn có thể tiêu diệt nhiều mục tiêu trong bán kính.
-```
  - Người chơi di chuyển để né hoặc bắn tàu của người ngoài hành tinh hoặc thiên thạch hoặc hành tinh.
- ```
-   + Bắn trúng tàu: + 200 pt
-   + Bắn trúng thiên thạch: + 100.f
-   + Bắn trúng hành tinh: - 1 mạng
+   + Bắn trúng tàu ![alien](https://github.com/ntkc03/finalProjectAdvProg_Cosmos/blob/main/image/alien.png): + 200 pt
+   + Bắn trúng thiên thạch ![rock](): + 100.f
+   + Bắn trúng hành tinh ![planet](https://github.com/ntkc03/finalProjectAdvProg_Cosmos/blob/main/image/planet1.PNG): - 1 mạng
    + Va vào tàu hoặc thiên thạch: - 1 mạng.
    + Va vào hành tinh: + 1 mạng
- ```
 - Tàu của người ngoài hành tinh có rada để phát hiện người chơi. Trong bán kính rada, nếu tàu phát hiện ra người chơi thì tàu sẽ di chuyển về phía người chơi và bắn đạn. Nếu tàu bị trúng đạn thì sẽ - 1 mạng.
 - Trong lúc chơi, có thể tạm dừng hoặc dừng hẳn.
 ## Các ý tưởng chính:
