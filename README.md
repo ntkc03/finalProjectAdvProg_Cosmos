@@ -4,8 +4,11 @@
 - Lớp: K66-CC
 ## Hướng dẫn cài đặt trên Window:
 **1.** Tải tại [đây](https://drive.google.com/file/d/1A09iW1Y1rntdGdSCmRtJCemABz9hKW-m/view?usp=sharing) và giải nén.
+
 **2.** Nháy đúp chuột vào **Comos.exe**.
+
 **3.** Trong thư mục **Comos**, nháy đúp chuột vào **Comos.exe** và chơi thôi:>
+
 *Trong trường hợp máy của bạn chưa có mingw64 và SFML, xin vui lòng làm theo hướng dẫn trong link video demo ở phía dưới*
 ## Mô tả chung về trò chơi:
 - Người chơi sử dụng bàn phím và chuột để chơi:
