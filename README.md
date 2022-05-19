@@ -5,7 +5,7 @@
 ## Hướng dẫn cài đặt trên Window:
 **1.** Tải tại [đây](https://drive.google.com/file/d/1A09iW1Y1rntdGdSCmRtJCemABz9hKW-m/view?usp=sharing) và giải nén.
 
-**2.** Nháy đúp chuột vào **Comos.exe**.
+**2.** Nháy đúp chuột vào **Comos.exe** và làm theo hướng dẫn.
 
 **3.** Trong thư mục **Comos**, nháy đúp chuột vào **Comos.exe** và chơi thôi:>
 
@@ -15,7 +15,8 @@
 ```
   + Nhấp chuột trái vào các lựa chọn.
   + Nhấn phím UP, Down, Left, Right trên bàn phím để di chuyển người chơi.
-  + Nhấn phím A để bắn đạn chỉ tiêu diệt được một mục tiêu, nhấn phím S để bắn đạn có thể tiêu diệt nhiều mục tiêu trong bán kính.
+  + Nhấn phím A để bắn đạn chỉ tiêu diệt được một mục tiêu.
+  + Nhấn phím S để bắn đạn có thể tiêu diệt nhiều mục tiêu trong bán kính.
 ```
  - Người chơi di chuyển để né hoặc bắn tàu của người ngoài hành tinh hoặc thiên thạch hoặc hành tinh.
  ```
@@ -75,6 +76,7 @@
    + Thuật toán và cốt truyện của game còn đơn giản, chưa đáp ứng nhu cầu của nhiều người chơi khác nhau, chuyển động của các nhân vật chưa được nhanh nhạy và đẹp mắt.
    + Đồ họa và âm thanh chủ yếu lấy trên mạng Internet nên còn khá sơ sài và một số chưa quá phù hợp.
    + Phần check Combat giữa các nhân vật còn chưa rút gọn được do cấu trúc của Alien và Rock khác nhau nên code đoạn đó hơi dài cho dù hai phần khá tương tự nhau. Mình/Em vẫn chưa tìm ra cách giải quyết thỏa đáng mong thầy/cô có thể góp ý thêm.
+   + Ngoài ra, phần code còn một số phần còn hơi dài dòng chưa tìm được cách tốt hơn, mong được thầy cô góp ý, chỉ dẫn thêm.
 ## Hướng phát triển:
 - Thêm chức năng tài khoản:
   + Trước hết, ta có thể chỉ nhập tên từ bàn phím và không có mật khẩu, không có yêu cầu về độ dài cũng như các kĩ tự trong tên. Ý tưởng của em là sẽ ghi lịch sử chơi vào một file, sau mỗi lần mở game, sẽ nạp vào một map<string, int>. Sau khi nhập tên người chơi, nếu chưa có tên thì sẽ thêm vào map với số điểm 0. Sau nhiều lần chới cùng 1 tên thì sẽ lấy điểm cao nhất.
@@ -87,5 +89,5 @@
  - Trước khi làm, em có học về SFML tại [đây](https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up) và [đây](https://www.sfml-dev.org/tutorials/2.5/). 
  - Phần code là do tự mình em làm.
  - Phần hình ảnh em chủ yếu lấy trên [Pinterest](https://www.pinterest.com/) rồi chỉnh sửa để phù hợp với game.
- - Phần âm thanh em lấy trên Youtube.
+ - Phần âm thanh em lấy trên [Youtube](https://www.youtube.com/user/gamingsoundfx).
  - Tự đánh giá: 9/10
