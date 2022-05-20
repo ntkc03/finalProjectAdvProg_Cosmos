@@ -48,7 +48,7 @@
 - Có âm thanh.
 - Lưu điểm và có thể cho biết 5 điểm cao nhất.
 ```
-### [Link demo](https://www.youtube.com/watch?v=zI2gzulq2mc)
+### [Link demo](https://www.youtube.com/watch?v=kBat9ZOyxho)
 ## Các kĩ thuật lập trình đã sử dụng:
 ```bash
 - Mảng động vector
