@@ -45,11 +45,10 @@
 - Tính điểm và cho biết điểm sau mỗi lượt chơi.
 - Có thể quay lại menu.
 - Chơi lại nhiều lần/thoát game.
-- Cho biết lượt mạng còn lại.
 - Có âm thanh.
 - Lưu điểm và có thể cho biết 5 điểm cao nhất.
 ```
-### [Link demo]()
+### [Link demo](https://www.youtube.com/watch?v=zI2gzulq2mc)
 ## Các kĩ thuật lập trình đã sử dụng:
 ```bash
 - Mảng động vector
