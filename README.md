@@ -14,7 +14,7 @@
 - Game sử dụng ngôn ngữ C++ và thư viện đồ họa SFML.
 - Người chơi sử dụng bàn phím và chuột để chơi:
   + Nhấp chuột trái vào các lựa chọn.
-  + Nhấn phím UP, Down, Left, Right trên bàn phím để di chuyển người chơi.
+  + Nhấn phím Up, Down, Left, Right trên bàn phím để di chuyển người chơi.
   + Nhấn phím A để bắn đạn chỉ tiêu diệt được một mục tiêu.
   + Nhấn phím S để bắn đạn có thể tiêu diệt nhiều mục tiêu trong bán kính.
  - Người chơi di chuyển để né hoặc bắn tàu của người ngoài hành tinh hoặc thiên thạch hoặc hành tinh.
@@ -32,6 +32,7 @@
 - Check va chạm giữa các vật thể và màn hình: Nếu các vật thể (trừ người chơi) đi ra khỏi màn hình thì nó sẽ biến mất và xóa ra khỏi mảng.
 - Bắn được nhiều mục tiêu: Vẽ một hình tròn có tâm tại viên đạn sau khi tiếp xúc với 1 vật thể và check trong hình tròn đó có những vật thể nào thì sẽ xóa.
 - Rada của tàu: tương tự như trên.
+- Menu: Chủ yếu sử dụng vòng lặp
 ## Các chức năng đã cài đặt:
 ```bash
 - Menu của game: chơi game, đọc luật chơi, thoát khỏi game.
