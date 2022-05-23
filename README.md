@@ -33,6 +33,7 @@
 - Bắn được nhiều mục tiêu: Vẽ một hình tròn có tâm tại viên đạn sau khi tiếp xúc với 1 vật thể và check trong hình tròn đó có những vật thể nào thì sẽ xóa.
 - Rada của tàu: tương tự như trên.
 - Menu: Chủ yếu sử dụng vòng lặp
+- Sau một lượng điểm nhất định, sẽ tăng độ khó bằng cách tăng tốc độ của các vật thể rơi xuống.
 ## Các chức năng đã cài đặt:
 ```bash
 - Menu của game: chơi game, đọc luật chơi, thoát khỏi game.
@@ -81,6 +82,7 @@
   + Cuối cùng khi có các kiến thức đủ có thể sử dụng database.
 - Thêm nhiều màn chơi hơn, với những cốt truyện đầy đủ.
 - Thêm chức năng bật, tắt tiếng hoặc thu âm.
+- Thêm chức năng tự bắn khi xác định được mục tiêu: vẽ một hình chữ nhật có chiều rộng gấp đôi chiều rộng của phi thuyền, chiều dài bằng chiều dài rộng của màm hình. Nếu có mục tiêu nằm trong hình chữ nhật đó thì phi thuyền sẽ tự động bắn.
 - Đóng gói game để chơi được ở nhiều máy mà không cần cài đặt mingw64 và sfml trong máy.
 ## Nguồn học và lấy đồ họa, âm thanh.
  - Trước khi làm, em có học về SFML tại [đây](https://youtube.com/playlist?list=PL6xSOsbVA1eb_QqMTTcql_3PdOiE928up) và [đây](https://www.sfml-dev.org/tutorials/2.5/). 
